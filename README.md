@@ -4,12 +4,18 @@
 <blockquote>
     Utilizadas as imagens oficiais do Zabbix, do Grafana e do MySQL. Os links para consulta estão no final deste artigo.
 </blockquote>
+
 <h2>Pré-requisitos</h2>
 
+<p>Antes de começar a usar este projeto, certifique-se de ter os seguintes pré-requisitos instalados em sua máquina:</p>
+
 <ul>
-    <li>Docker instalado</li>
-    <li>Docker Compose instalado</li>
+    <li><b>Docker:</b> A plataforma Docker é necessária para criar e gerenciar os containers do projeto. <a href="https://docs.docker.com/get-docker/">Instale o Docker aqui</a>.</li>
+    <li><b>Docker Compose:</b> Ferramenta para definir e executar aplicações Docker de vários containers. <a href="https://docs.docker.com/compose/install/">Instale o Docker Compose aqui</a>.</li>
+    <li><b>Git:</b> Sistema de controle de versão necessário para clonar o repositório. <a href="https://git-scm.com/book/pt-br/v2/Come%C3%A7ando-Instalando-o-Git">Instale o Git aqui</a>.</li>
 </ul>
+
+<p>Após instalar os pré-requisitos acima, você pode seguir as instruções de instalação e uso.</p>
 
 <h2>Configuração</h2>
 
