@@ -1,4 +1,6 @@
-<p><center><img src="technology-two.png" width="200" alt="Logo" /></center></p>
+<p align="center">
+    <img src="technology-two.png" width="200" alt="Logo" />
+</p>
 
 <h1>Zabbix & Grafana Docker Compose</h1>
 
