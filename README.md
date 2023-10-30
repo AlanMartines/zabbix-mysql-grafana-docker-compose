@@ -1,3 +1,5 @@
+<p><center><img src="technology-two.png" width="200" alt="Logo" /></center></p>
+
 <h1>Zabbix & Grafana Docker Compose</h1>
 
 <p>Este repositório contém um arquivo <code>docker-compose.yml</code> para a implantação do Zabbix (incluindo frontend, servidor, banco de dados e agent) e Grafana.</p>
