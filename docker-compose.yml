@@ -1,0 +1,180 @@
+# Criar um contêiner
+# docker compose -f docker-compose.yml up --build -d --no-recreate
+
+version: '3.9'
+
+services:
+  zabbix-mysql:
+    container_name: zabbix-mysql
+    hostname: zabbix-mysql
+    image: mysql:8
+    restart: unless-stopped
+    # ports:
+    #   - "3306:3306"
+    volumes:
+      - /usr/local/docker/zabbix/mysql/data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: zabbix
+      MYSQL_USER: zabbix
+      MYSQL_PASSWORD: zabbix
+    command:
+      - "--default-authentication-plugin=mysql_native_password"
+      - "--character-set-server=utf8"
+      - "--collation-server=utf8_bin"
+    networks:
+      network-monitor:
+        ipv4_address: 10.0.0.2
+
+  zabbix-snmptraps:
+    container_name: zabbix-snmptraps
+    hostname: zabbix-snmptraps
+    image: zabbix/zabbix-snmptraps:latest
+    restart: unless-stopped
+    # ports:
+    #   - "162:1162/udp"
+    volumes:
+      - /usr/local/docker/zabbix/snmptraps:/var/lib/zabbix/snmptraps:rw
+      - /usr/local/docker/zabbix/mibs:/usr/share/snmp/mibs:ro
+    networks:
+      network-monitor:
+        ipv4_address: 10.0.0.3
+
+  zabbix-server:
+    container_name: zabbix-server
+    hostname: zabbix-server
+    image: zabbix/zabbix-server-mysql:latest
+    #restart: unless-stopped
+    # ports:
+    #   - "10051:10051"
+    environment:
+      DB_SERVER_HOST: zabbix-mysql
+      DB_SERVER_PORT: "3306"
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: zabbix
+      MYSQL_USER: zabbix
+      MYSQL_PASSWORD: zabbix
+      ZBX_ENABLE_SNMP_TRAPS: "true"
+      ZBX_STARTPOLLERS: 5
+      ZBX_STARTPINGERS: 1
+      ZBX_LISTENPORT: 10051
+      ZBX_HOUSEKEEPINGFREQUENCY: 1
+      ZBX_MAXHOUSEKEEPERDELETE: 5000
+      ZBX_PROBLEMHOUSEKEEPINGFREQUENCY: 60
+      ZBX_SENDERFREQUENCY: 30
+      ZBX_CACHEUPDATEFREQUENCY: 10
+      ZBX_STARTDBSYNCERS: 4
+      ZBX_EXPORTFILESIZE: 1G
+      ZBX_HISTORYCACHESIZE: 16M
+      ZBX_HISTORYINDEXCACHESIZE: 4M
+      ZBX_HISTORYSTORAGEDATEINDEX: 0
+      ZBX_TRENDCACHESIZE: 4M
+      ZBX_TRENDFUNCTIONCACHESIZE: 4M
+      ZBX_VALUECACHESIZE: 8M
+      ZBX_UNREACHABLEPERIOD: 45
+      ZBX_UNAVAILABLEDELAY: 60
+      ZBX_UNREACHABLEDELAY: 15
+      ZBX_LOGSLOWQUERIES: 3000
+    networks:
+      network-monitor:
+        ipv4_address: 10.0.0.4
+    volumes:
+      - /usr/local/docker/zabbix/alertscripts:/usr/lib/zabbix/alertscripts:ro
+      - /usr/local/docker/zabbix/extrnalscripts:/usr/lib/zabbix/externalscripts:ro
+      - /usr/local/docker/zabbix/modules:/var/lib/zabbix/modules:ro
+      - /usr/local/docker/zabbix/enc:/var/lib/zabbix/enc:ro
+      - /usr/local/docker/zabbix/ssh_keys:/var/lib/zabbix/ssh_keys:ro
+      - /usr/local/docker/zabbix/mibs:/var/lib/zabbix/mibs:ro
+      - /usr/local/docker/zabbix/snmptraps:/var/lib/zabbix/snmptraps:ro
+      - /usr/local/docker/zabbix/ssl/certs:/var/lib/zabbix/ssl/certs:ro
+      - /usr/local/docker/zabbix/ssl/keys:/var/lib/zabbix/ssl/keys:ro
+    volumes_from:
+      - zabbix-snmptraps
+    depends_on:
+      - zabbix-mysql
+      - zabbix-snmptraps
+    deploy:
+      restart_policy:
+        condition: unless-stopped
+      resources:
+        limits:
+          cpus: "1"
+          memory: 1280M
+        reservations:
+          memory: 768M
+          cpus: "0.5"
+
+  zabbix-frontend:
+    container_name: zabbix-frontend
+    hostname: zabbix-frontend
+    image: zabbix/zabbix-web-nginx-mysql:latest
+    restart: unless-stopped
+    ports:
+      - "8088:8080"
+    environment:
+      ZBX_SERVER_HOST: zabbix-server
+      DB_SERVER_HOST: zabbix-mysql
+      DB_SERVER_PORT: "3306"
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: zabbix
+      MYSQL_USER: zabbix
+      MYSQL_PASSWORD: zabbix
+      PHP_TZ: "America/Caracas"
+      ZBX_POSTMAXSIZE: 64M
+      ZBX_MAXEXECUTIONTIME: 500
+    networks:
+      network-monitor:
+        ipv4_address: 10.0.0.5
+    depends_on:
+      - zabbix-server
+
+  zabbix-agent:
+    container_name: zabbix-agent
+    hostname: zabbix-agent
+    image: zabbix/zabbix-agent:latest
+    restart: unless-stopped
+    privileged: true
+    networks:
+      network-monitor:
+        ipv4_address: 10.0.0.6
+    volumes:
+      - /usr/local/docker/zabbix/zabbix_agentd.d:/etc/zabbix/zabbix_agentd.d:rw
+      - /var/run:/var/run:ro
+    links:
+      - zabbix-server:zabbix-server
+    depends_on:
+      - zabbix-server
+
+  zabbix-grafana:
+    container_name: zabbix-grafana
+    hostname: zabbix-grafana
+    image: grafana/grafana:latest
+    #restart: unless-stopped
+    environment: 
+      GF_INSTALL_PLUGINS: alexanderzobnin-zabbix-app
+    ports:
+      - "8089:3000"
+    networks:
+      network-monitor:
+        ipv4_address: 10.0.0.7
+    volumes:
+      - /usr/local/docker/grafana_storage:/var/lib/grafana:rw
+    user: "0"
+    deploy:
+      restart_policy:
+        condition: unless-stopped
+      resources:
+        limits:
+          cpus: "1"
+          memory: 768M
+        reservations:
+          memory: 512M
+          cpus: "0.5"
+
+networks:
+  network-monitor:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.0.0/16
+          gateway: 10.0.0.1
