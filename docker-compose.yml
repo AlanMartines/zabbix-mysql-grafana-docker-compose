@@ -22,10 +22,13 @@ services:
       - "--default-authentication-plugin=mysql_native_password"
       - "--character-set-server=utf8"
       - "--collation-server=utf8_bin"
+    # networks:
+    #   - network-monitor
     networks:
       network-monitor:
         ipv4_address: 10.0.0.2
-
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   zabbix-snmptraps:
     container_name: zabbix-snmptraps
     hostname: zabbix-snmptraps
@@ -36,17 +39,19 @@ services:
     volumes:
       - /usr/local/docker/zabbix/snmptraps:/var/lib/zabbix/snmptraps:rw
       - /usr/local/docker/zabbix/mibs:/usr/share/snmp/mibs:ro
+  #   networks:
+  #     - network-monitor
     networks:
       network-monitor:
         ipv4_address: 10.0.0.3
-
   zabbix-server:
     container_name: zabbix-server
     hostname: zabbix-server
     image: zabbix/zabbix-server-mysql:latest
     #restart: unless-stopped
-    # ports:
-    #   - "10051:10051"
+    #    ports:
+    #       - "10050:10050"
+    #       - "10051:10051"
     environment:
       DB_SERVER_HOST: zabbix-mysql
       DB_SERVER_PORT: "3306"
@@ -75,9 +80,13 @@ services:
       ZBX_UNAVAILABLEDELAY: 60
       ZBX_UNREACHABLEDELAY: 15
       ZBX_LOGSLOWQUERIES: 3000
+    # networks:
+    #   - network-monitor
     networks:
       network-monitor:
         ipv4_address: 10.0.0.4
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - /usr/local/docker/zabbix/alertscripts:/usr/lib/zabbix/alertscripts:ro
       - /usr/local/docker/zabbix/extrnalscripts:/usr/lib/zabbix/externalscripts:ro
@@ -122,6 +131,8 @@ services:
       PHP_TZ: "America/Caracas"
       ZBX_POSTMAXSIZE: 64M
       ZBX_MAXEXECUTIONTIME: 500
+    # networks:
+    #   - network-monitor
     networks:
       network-monitor:
         ipv4_address: 10.0.0.5
@@ -131,17 +142,30 @@ services:
   zabbix-agent:
     container_name: zabbix-agent
     hostname: zabbix-agent
+    # image: zabbix/zabbix-agent2:latest
     image: zabbix/zabbix-agent:latest
     restart: unless-stopped
     privileged: true
+    # networks:
+    #   - network-monitor
     networks:
       network-monitor:
         ipv4_address: 10.0.0.6
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
-      - /usr/local/docker/zabbix/zabbix_agentd.d:/etc/zabbix/zabbix_agentd.d:rw
       - /var/run:/var/run:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /usr/local/docker/zabbix/zabbix_agentd.d:/etc/zabbix/zabbix_agentd.d:ro
+      - /usr/local/docker/zabbix/modules:/var/lib/zabbix/modules:ro
+      - /usr/local/docker/zabbix/enc:/var/lib/zabbix/enc:ro
+      - /usr/local/docker/zabbix/ssh_keys:/var/lib/zabbix/ssh_keys:ro
+    # command:
+    #   - "--add-host=host.docker.internal:host-gateway"
     links:
-      - zabbix-server:zabbix-server
+      - zabbix-server
     depends_on:
       - zabbix-server
 
@@ -149,11 +173,15 @@ services:
     container_name: zabbix-grafana
     hostname: zabbix-grafana
     image: grafana/grafana:latest
-    #restart: unless-stopped
-    environment: 
-      GF_INSTALL_PLUGINS: alexanderzobnin-zabbix-app
+    environment:
+      GF_SERVER_ROOT_URL: ${GF_SERVER_ROOT_URL:-http://localhost:8089}
+      GF_INSTALL_PLUGINS: ${GF_INSTALL_PLUGINS:-alexanderzobnin-zabbix-app}
     ports:
       - "8089:3000"
+    # depends_on:
+    #   - zabbix-prometheus
+    # networks:
+    #   - network-monitor
     networks:
       network-monitor:
         ipv4_address: 10.0.0.7
@@ -171,10 +199,94 @@ services:
           memory: 512M
           cpus: "0.5"
 
+  # zabbix-prometheus:
+  #   container_name: zabbix-prometheus
+  #   hostname: zabbix-prometheus
+  #   image: prom/prometheus:latest
+  #   volumes:
+  #     - /usr/local/docker/prometheus/etc:/etc/prometheus:rw
+  #     - /usr/local/docker/prometheus/data:/prometheus:rw
+  #   command:
+  #     - '--config.file=/etc/prometheus/prometheus.yml'
+  #     - '--storage.tsdb.path=/prometheus'
+  #     - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+  #     - '--web.console.templates=/usr/share/prometheus/consoles'
+  #   networks:
+  #     - network-monitor
+  #   ports:
+  #     - 9090:9090
+  #    networks:
+  #      network-monitor:
+  #        ipv4_address: 10.0.0.8
+  #   links:
+  #     - zabbix-cadvisor
+  #     - zabbix-alert-manager
+  #   depends_on:
+  #     - zabbix-cadvisor
+
+  # zabbix-node-exporter:
+  #   container_name: zabbix-node-exporter
+  #   hostname: zabbix-node-exporter
+  #   image: prom/node-exporter:latest
+  #   volumes:
+  #     - /proc:/host/proc:ro
+  #     - /sys:/host/sys:ro
+  #     - /:/rootfs:ro
+  #     - /:/host:ro,rslave
+  #   command:
+  #     - '--path.rootfs=/host'
+  #     - '--path.procfs=/host/proc'
+  #     - '--path.sysfs=/host/sys'
+  #     - --collector.filesystem.ignored-mount-points
+  #     - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
+  #   networks:
+  #     - network-monitor
+  #   ports:
+  #     - 9100:9100
+  #    networks:
+  #      network-monitor:
+  #        ipv4_address: 10.0.0.9
+
+  # zabbix-alert-manager:
+  #   container_name: zabbix-alert-manager
+  #   hostname: zabbix-alert-manager
+  #   image: prom/alertmanager:latest
+  #   volumes:
+  #     - /usr/local/docker/alertmanager:/alertmanager:rw
+  #   command:
+  #     - '--config.file=/etc/alertmanager/config.yml'
+  #     - '--storage.path=/alertmanager'
+  #   networks:
+  #     - network-monitor
+  #   ports:
+  #     - 9093:9093
+  #    networks:
+  #      network-monitor:
+  #        ipv4_address: 10.0.0.10
+
+  # zabbix-cadvisor:
+  #   container_name: zabbix-cadvisor
+  #   hostname: zabbix-cadvisor
+  #   image: gcr.io/cadvisor/cadvisor:latest
+  #   volumes:
+  #     - /:/rootfs:ro
+  #     - /var/run:/var/run:rw
+  #     - /sys:/sys:ro
+  #     - /var/lib/docker/:/var/lib/docker:ro
+  #   ports:
+  #     - 9080:8080
+  #   networks:
+  #     - network-monitor
+  #   restart: unless-stopped
+  #    networks:
+  #      network-monitor:
+  #        ipv4_address: 10.0.0.11
+
 networks:
   network-monitor:
     driver: bridge
     ipam:
+      driver: default
       config:
         - subnet: 10.0.0.0/16
           gateway: 10.0.0.1
