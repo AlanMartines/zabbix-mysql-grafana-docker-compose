@@ -1,4 +1,5 @@
 # Criar um contêiner
+# https://medium.com/zabbix-brasil/monitorando-docker-com-zabbix-5-e-zabbix-agent2-1a9a8d53fbd3
 # docker compose -f docker-compose.yml up --build -d --no-recreate
 
 version: '3.9'
