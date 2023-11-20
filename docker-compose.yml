@@ -8,7 +8,7 @@ services:
   zabbix-mysql:
     container_name: zabbix-mysql
     hostname: zabbix-mysql
-    image: mysql:8
+    image: mysql:8.0
     restart: unless-stopped
     # ports:
     #   - "3306:3306"
@@ -30,6 +30,7 @@ services:
         ipv4_address: 10.0.0.2
     extra_hosts:
       - "host.docker.internal:host-gateway"
+
   zabbix-snmptraps:
     container_name: zabbix-snmptraps
     hostname: zabbix-snmptraps
@@ -45,6 +46,7 @@ services:
     networks:
       network-monitor:
         ipv4_address: 10.0.0.3
+
   zabbix-server:
     container_name: zabbix-server
     hostname: zabbix-server
