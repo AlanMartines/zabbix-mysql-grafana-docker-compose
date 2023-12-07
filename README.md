@@ -28,6 +28,9 @@
         <pre><code>git clone https://github.com/AlanMartines/zabbix-docker-compose.git
 cd zabbix-docker-compose</code></pre>
     </li>
+    <li>Configuração inicial:
+        <pre><code>cp .env-example .env</code></pre>
+    </li>
 </ol>
 
 <h2>Implantação</h2>
