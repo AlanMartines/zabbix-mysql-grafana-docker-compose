@@ -1,6 +1,6 @@
 # Criar um contêiner
 # https://medium.com/zabbix-brasil/monitorando-docker-com-zabbix-5-e-zabbix-agent2-1a9a8d53fbd3
-# docker compose -f docker-compose.yml up --build -d --no-recreate
+# docker compose -f docker-compose-monitor.yml up --build -d --no-recreate
 
 version: '3.9'
 
@@ -204,88 +204,39 @@ services:
           memory: 512M
           cpus: "0.5"
 
-  # zabbix-prometheus:
-  #   container_name: zabbix-prometheus
-  #   hostname: zabbix-prometheus
-  #   image: prom/prometheus:latest
-  #   volumes:
-  #     - /usr/local/docker/prometheus/etc:/etc/prometheus:rw
-  #     - /usr/local/docker/prometheus/data:/prometheus:rw
-  #   command:
-  #     - '--config.file=/etc/prometheus/prometheus.yml'
-  #     - '--storage.tsdb.path=/prometheus'
-  #     - '--web.console.libraries=/usr/share/prometheus/console_libraries'
-  #     - '--web.console.templates=/usr/share/prometheus/consoles'
-  #   networks:
-  #     - network-monitor
-  #   ports:
-  #     - 9090:9090
-  #    networks:
-  #      network-monitor:
-  #        ipv4_address: 10.0.0.8
-  #   links:
-  #     - zabbix-cadvisor
-  #     - zabbix-alert-manager
-  #   depends_on:
-  #     - zabbix-cadvisor
+  mongo:
+    image: mongo:3.4.23
+    volumes:
+     - /usr/local/mongo/mongodb_data:/data/db
+     - /usr/local/mongo/dump:/dump
+    command: mongod --smallfiles --oplogSize 128 --replSet rs0
 
-  # zabbix-node-exporter:
-  #   container_name: zabbix-node-exporter
-  #   hostname: zabbix-node-exporter
-  #   image: prom/node-exporter:latest
-  #   volumes:
-  #     - /proc:/host/proc:ro
-  #     - /sys:/host/sys:ro
-  #     - /:/rootfs:ro
-  #     - /:/host:ro,rslave
-  #   command:
-  #     - '--path.rootfs=/host'
-  #     - '--path.procfs=/host/proc'
-  #     - '--path.sysfs=/host/sys'
-  #     - --collector.filesystem.ignored-mount-points
-  #     - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
-  #   networks:
-  #     - network-monitor
-  #   ports:
-  #     - 9100:9100
-  #    networks:
-  #      network-monitor:
-  #        ipv4_address: 10.0.0.9
+  mongo-init-replica:
+    image: mongo:3.4.23
+    command: 'mongo mongo/rocketchat --eval "rs.initiate({ _id: ''rs0'', members: [ { _id: 0, host: ''localhost:27017'' } ]})"'
+    depends_on:
+      - mongo
 
-  # zabbix-alert-manager:
-  #   container_name: zabbix-alert-manager
-  #   hostname: zabbix-alert-manager
-  #   image: prom/alertmanager:latest
-  #   volumes:
-  #     - /usr/local/docker/alertmanager:/alertmanager:rw
-  #   command:
-  #     - '--config.file=/etc/alertmanager/config.yml'
-  #     - '--storage.path=/alertmanager'
-  #   networks:
-  #     - network-monitor
-  #   ports:
-  #     - 9093:9093
-  #    networks:
-  #      network-monitor:
-  #        ipv4_address: 10.0.0.10
-
-  # zabbix-cadvisor:
-  #   container_name: zabbix-cadvisor
-  #   hostname: zabbix-cadvisor
-  #   image: gcr.io/cadvisor/cadvisor:latest
-  #   volumes:
-  #     - /:/rootfs:ro
-  #     - /var/run:/var/run:rw
-  #     - /sys:/sys:ro
-  #     - /var/lib/docker/:/var/lib/docker:ro
-  #   ports:
-  #     - 9080:8080
-  #   networks:
-  #     - network-monitor
-  #   restart: unless-stopped
-  #    networks:
-  #      network-monitor:
-  #        ipv4_address: 10.0.0.11
+# If you already have a RocketChat instance running, just comment the code of rocketchat, mongo and mongo-init-replica services bellow
+  rocketchat:
+    image: rocketchat/rocket.chat:${TAG_RC:-latest}
+    volumes:
+      - /usr/local/rocket/rocket_uploads:/app/uploads
+    environment:
+      - PORT=3080
+      - ROOT_URL=${ROOT_URL:-http://localhost:3080}
+      - MONGO_URL=mongodb://mongo:27017/rocketchat
+      - MONGO_OPLOG_URL=mongodb://mongo:27017/local
+#      - MAIL_URL = ${MAIL_URL:-smtp://user:pass@smtp.email}
+#      - HTTP_PROXY = ${HTTP_PROXY:-http://proxy.domain.com}
+#      - HTTPS_PROXY = ${HTTPS_PROXY:-http://proxy.domain.com}
+    depends_on:
+      - mongo
+    ports:
+      - 3080:3080
+    networks:
+      network-monitor:
+        ipv4_address: 10.0.0.8
 
 networks:
   network-monitor:

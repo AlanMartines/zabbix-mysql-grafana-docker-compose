@@ -33,13 +33,36 @@ cd zabbix-docker-compose</code></pre>
     </li>
 </ol>
 
-<h2>Implantação</h2>
+<h2>Implantação Frontend</h2>
 
 <p>Para iniciar os serviços:</p>
-<pre><code>docker-compose up -d</code></pre>
+<pre><code>docker compose -f docker-compose-monitor.yml up --build -d --no-recreate</code></pre>
 
-<p>Para parar os serviços:</p>
-<pre><code>docker-compose down</code></pre>
+<h2>Serviços Incluídos</h2>
+
+<ul>
+    <li><strong>zabbix-mysql</strong>: Banco de dados MySQL para Zabbix.</li>
+    <li><strong>zabbix-snmptraps</strong>: Serviço SNMP Traps para Zabbix.</li>
+    <li><strong>zabbix-server</strong>: Servidor Zabbix.</li>
+    <li><strong>zabbix-frontend</strong>: Frontend do Zabbix usando Nginx.</li>
+    <li><strong>zabbix-agent</strong>: Agente Zabbix.</li>
+    <li><strong>zabbix-grafana</strong>: Grafana com o plugin Zabbix.</li>
+    <li><strong>rocketchat</strong>: Rocket.Chat.</li>
+</ul>
+
+<h2>Links para as Imagens Oficiais</h2>
+
+<ul>
+    <li><strong>Mysql:</strong> <a href="https://hub.docker.com/_/mysql" target="_blank">https://hub.docker.com/_/mysql</a></li>
+    <li><strong>Zabbix:</strong> <a href="https://hub.docker.com/u/zabbix" target="_blank">https://hub.docker.com/u/zabbix</a></li>
+    <li><strong>Grafana:</strong> <a href="https://hub.docker.com/u/grafana" target="_blank">https://hub.docker.com/u/grafana</a></li>
+    <li><strong>Rocket.Chat:</strong> <a href="https://hub.docker.com/r/rocketchat/rocket.chat" target="_blank">https://hub.docker.com/r/rocketchat/rocket.chat</a></li>
+</ul>
+
+<h2>Implantação Backend</h2>
+
+<p>Para iniciar os serviços:</p>
+<pre><code>docker compose -f docker-compose-backend.yml up --build -d --no-recreate</code></pre>
 
 <h2>Serviços Incluídos</h2>
 

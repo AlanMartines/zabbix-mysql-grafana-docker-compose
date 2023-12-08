@@ -1,0 +1,123 @@
+# Criar um contêiner
+# https://medium.com/brasil/monitorando-docker-com-5-e-agent2-1a9a8d53fbd3
+# docker compose -f docker-compose-monitor.yml up --build -d --no-recreate
+
+version: '3.9'
+
+services:
+  prometheus:
+    container_name: prometheus
+    hostname: prometheus
+    image: prom/prometheus:latest
+    volumes:
+      - /usr/local/docker/prometheus/etc:/etc/prometheus:rw
+      - /usr/local/docker/prometheus/data:/prometheus:rw
+      - /usr/local/docker/prometheus/lib:/var/lib/prometheus:rw
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    ports:
+      - 9090:9090
+    networks:
+      network-monitor:
+        ipv4_address: 20.0.0.1
+    links:
+      - cadvisor
+      - alert-manager
+    depends_on:
+      - cadvisor
+
+  node-exporter:
+    container_name: node-exporter
+    hostname: node-exporter
+    image: prom/node-exporter:latest
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+      - /:/host:ro,rslave
+    command:
+      - '--path.rootfs=/host'
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - --collector.filesystem.ignored-mount-points
+      - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
+    deploy:
+      mode: global
+    ports:
+      - 9100:9100
+    networks:
+      network-monitor:
+        ipv4_address: 20.0.0.2
+
+  alert-manager:
+    container_name: alert-manager
+    hostname: alert-manager
+    image: prom/alertmanager:latest
+    volumes:
+      - /usr/local/docker/alertmanager:/alertmanager:rw
+    command:
+      - '--config.file=/etc/alertmanager/config.yml'
+      - '--storage.path=/alertmanager'
+    ports:
+      - 9093:9093
+    networks:
+      network-monitor:
+        ipv4_address: 20.0.0.3
+
+  cadvisor:
+    container_name: cadvisor
+    hostname: cadvisor
+    image: gcr.io/cadvisor/cadvisor:latest
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    deploy:
+      mode: global
+    ports:
+      - 9080:8080
+    restart: unless-stopped
+    networks:
+      network-monitor:
+        ipv4_address: 20.0.0.4
+
+  netdata:
+    image: netdata/netdata
+    container_name: netdata
+    pid: host
+    network_mode: host
+    restart: unless-stopped
+    cap_add:
+      - SYS_PTRACE
+      - SYS_ADMIN
+    security_opt:
+      - apparmor:unconfined
+    volumes:
+      - netdataconfig:/etc/netdata
+      - netdatalib:/var/lib/netdata
+      - netdatacache:/var/cache/netdata
+      - /etc/passwd:/host/etc/passwd:ro
+      - /etc/group:/host/etc/group:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /etc/os-release:/host/etc/os-release:ro
+      - /var/log:/host/var/log:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      network-monitor:
+        ipv4_address: 20.0.0.5
+
+networks:
+  network-monitor:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 20.0.0.0/16
+          gateway: 20.0.0.1
