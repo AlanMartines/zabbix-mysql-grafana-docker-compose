@@ -36,4 +36,4 @@ scrape_configs:
     honor_labels: true
     scrape_interval: 5s
     static_configs:
-         - targets: ['YOUR_NETDATA_IP:19999']
+         - targets: ['20.0.0.6:19999']
