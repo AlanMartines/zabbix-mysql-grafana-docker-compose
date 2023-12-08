@@ -31,6 +31,12 @@ cd zabbix-docker-compose</code></pre>
     <li>Configuração inicial:
         <pre><code>cp .env-example .env</code></pre>
     </li>
+    <li>Criando os volumes:
+        <pre><code>mkdir -p /usr/local/docker/</code></pre>
+    </li>
+    <li>Aplicando permições:
+        <pre><code>chmod -R 777 /usr/local/docker/*</code></pre>
+    </li>
 </ol>
 
 <h2>Implantação Frontend</h2>
