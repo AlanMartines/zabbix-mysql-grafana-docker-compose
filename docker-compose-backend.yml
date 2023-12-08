@@ -14,7 +14,7 @@ services:
       - /usr/local/docker/prometheus/data:/prometheus:rw
       - /usr/local/docker/prometheus/lib:/var/lib/prometheus:rw
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
+      # - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
       - '--web.console.libraries=/usr/share/prometheus/console_libraries'
       - '--web.console.templates=/usr/share/prometheus/consoles'
