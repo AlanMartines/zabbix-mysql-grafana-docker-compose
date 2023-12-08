@@ -212,6 +212,8 @@ services:
      - /usr/local/mongo/mongodb_data:/data/db
      - /usr/local/mongo/dump:/dump
     command: mongod --smallfiles --oplogSize 128 --replSet rs0
+    ports:
+      - 27017:27017
     networks:
       network-monitor:
         ipv4_address: 10.0.0.8
@@ -226,8 +228,8 @@ services:
     environment:
       - PORT=3080
       - ROOT_URL=${ROOT_URL:-http://localhost:3080}
-      - MONGO_URL=mongodb://mongo:27017/rocketchat
-      - MONGO_OPLOG_URL=mongodb://mongo:27017/local
+      - MONGO_URL=mongodb://10.0.0.8:27017/rocketchat
+      - MONGO_OPLOG_URL=mongodb://10.0.0.8:27017/local
 #      - MAIL_URL = ${MAIL_URL:-smtp://user:pass@smtp.email}
 #      - HTTP_PROXY = ${HTTP_PROXY:-http://proxy.domain.com}
 #      - HTTPS_PROXY = ${HTTPS_PROXY:-http://proxy.domain.com}
