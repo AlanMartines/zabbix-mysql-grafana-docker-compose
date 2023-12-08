@@ -63,13 +63,13 @@ services:
     command:
       - '--config.file=/etc/alertmanager/config.yml'
       - '--storage.path=/alertmanager'
+    deploy:
+      mode: global
     ports:
       - 9093:9093
     networks:
       network-monitor:
         ipv4_address: 20.0.0.4
-    deploy:
-      mode: global
 
   cadvisor:
     container_name: cadvisor
