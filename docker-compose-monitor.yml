@@ -220,7 +220,7 @@ services:
   rocketchat:
     container_name: rocketchat
     hostname: rocketchat
-    image: rocketchat/rocket.chat:${TAG_RC:-latest}
+    image: rocket.chat:${TAG_RC:-latest}
     volumes:
       - /usr/local/rocket/rocket_uploads:/app/uploads
     environment:
@@ -232,6 +232,8 @@ services:
 #      - HTTP_PROXY = ${HTTP_PROXY:-http://proxy.domain.com}
 #      - HTTPS_PROXY = ${HTTPS_PROXY:-http://proxy.domain.com}
     depends_on:
+      - mongo
+    link:
       - mongo
     ports:
       - 3080:3080
