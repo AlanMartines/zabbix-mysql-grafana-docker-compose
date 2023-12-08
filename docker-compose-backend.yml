@@ -22,7 +22,7 @@ services:
       - 9090:9090
     networks:
       network-monitor:
-        ipv4_address: 20.0.0.1
+        ipv4_address: 20.0.0.2
     links:
       - cadvisor
       - alert-manager
@@ -50,7 +50,7 @@ services:
       - 9100:9100
     networks:
       network-monitor:
-        ipv4_address: 20.0.0.2
+        ipv4_address: 20.0.0.3
 
   alert-manager:
     container_name: alert-manager
@@ -65,7 +65,7 @@ services:
       - 9093:9093
     networks:
       network-monitor:
-        ipv4_address: 20.0.0.3
+        ipv4_address: 20.0.0.4
 
   cadvisor:
     container_name: cadvisor
@@ -84,7 +84,7 @@ services:
     restart: unless-stopped
     networks:
       network-monitor:
-        ipv4_address: 20.0.0.4
+        ipv4_address: 20.0.0.5
 
   netdata:
     image: netdata/netdata:${TAG_NDT:-latest}
@@ -111,7 +111,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       network-monitor:
-        ipv4_address: 20.0.0.5
+        ipv4_address: 20.0.0.6
 
 networks:
   network-monitor:
