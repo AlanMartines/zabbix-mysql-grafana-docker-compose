@@ -178,6 +178,7 @@ services:
     hostname: zabbix-grafana
     image: grafana/grafana:${TAG_GF:-latest}
     environment:
+      GF_SECURITY_ADMIN_PASSWORD: ${GF_SECURITY_ADMIN_PASSWORD:-12345678}
       GF_SERVER_ROOT_URL: ${GF_SERVER_ROOT_URL:-http://localhost:8089}
       GF_INSTALL_PLUGINS: ${GF_INSTALL_PLUGINS:-alexanderzobnin-zabbix-app}
     ports:
