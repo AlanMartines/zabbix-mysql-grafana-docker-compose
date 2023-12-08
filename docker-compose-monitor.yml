@@ -204,43 +204,43 @@ services:
           memory: 512M
           cpus: "0.5"
 
-  mongo:
-    container_name: mongo
-    hostname: mongo
-    image: mongo:${TAG_MG:-4.0}
-    volumes:
-     - /usr/local/mongo/mongodb_data:/data/db
-     - /usr/local/mongo/dump:/dump
-    # command: mongod --smallfiles --oplogSize 128 --replSet rs0
-    command: mongod --oplogSize 128 --replSet rs0
-    networks:
-      network-monitor:
-        ipv4_address: 10.0.0.8
+#   mongo:
+#     container_name: mongo
+#     hostname: mongo
+#     image: mongo:${TAG_MG:-4.0}
+#     volumes:
+#      - /usr/local/mongo/mongodb_data:/data/db
+#      - /usr/local/mongo/dump:/dump
+#     # command: mongod --smallfiles --oplogSize 128 --replSet rs0
+#     command: mongod --oplogSize 128 --replSet rs0
+#     networks:
+#       network-monitor:
+#         ipv4_address: 10.0.0.8
 
-# If you already have a RocketChat instance running, just comment the code of rocketchat, mongo and mongo-init-replica services bellow
-  rocketchat:
-    container_name: rocketchat
-    hostname: rocketchat
-    image: rocket.chat:${TAG_RC:-latest}
-    volumes:
-      - /usr/local/rocket/rocket_uploads:/app/uploads
-    environment:
-      - PORT=3080
-      - ROOT_URL=${ROOT_URL:-http://localhost:3080}
-      - MONGO_URL=mongodb://mongo:27017/rocketchat
-      - MONGO_OPLOG_URL=mongodb://mongo:27017/local
-#      - MAIL_URL = ${MAIL_URL:-smtp://user:pass@smtp.email}
-#      - HTTP_PROXY = ${HTTP_PROXY:-http://proxy.domain.com}
-#      - HTTPS_PROXY = ${HTTPS_PROXY:-http://proxy.domain.com}
-    depends_on:
-      - mongo
-    links:
-      - mongo
-    ports:
-      - 3080:3080
-    networks:
-      network-monitor:
-        ipv4_address: 10.0.0.9
+# # If you already have a RocketChat instance running, just comment the code of rocketchat, mongo and mongo-init-replica services bellow
+#   rocketchat:
+#     container_name: rocketchat
+#     hostname: rocketchat
+#     image: rocket.chat:${TAG_RC:-latest}
+#     volumes:
+#       - /usr/local/rocket/rocket_uploads:/app/uploads
+#     environment:
+#       - PORT=3080
+#       - ROOT_URL=${ROOT_URL:-http://localhost:3080}
+#       - MONGO_URL=mongodb://mongo:27017/rocketchat
+#       - MONGO_OPLOG_URL=mongodb://mongo:27017/local
+# #      - MAIL_URL = ${MAIL_URL:-smtp://user:pass@smtp.email}
+# #      - HTTP_PROXY = ${HTTP_PROXY:-http://proxy.domain.com}
+# #      - HTTPS_PROXY = ${HTTPS_PROXY:-http://proxy.domain.com}
+#     depends_on:
+#       - mongo
+#     links:
+#       - mongo
+#     ports:
+#       - 3080:3080
+#     networks:
+#       network-monitor:
+#         ipv4_address: 10.0.0.9
 
 networks:
   network-monitor:
