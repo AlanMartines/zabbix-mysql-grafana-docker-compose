@@ -212,6 +212,9 @@ services:
      - /usr/local/mongo/mongodb_data:/data/db
      - /usr/local/mongo/dump:/dump
     command: mongod --smallfiles --oplogSize 128 --replSet rs0
+    networks:
+      network-monitor:
+        ipv4_address: 10.0.0.8
 
 # If you already have a RocketChat instance running, just comment the code of rocketchat, mongo and mongo-init-replica services bellow
   rocketchat:
@@ -234,7 +237,7 @@ services:
       - 3080:3080
     networks:
       network-monitor:
-        ipv4_address: 10.0.0.8
+        ipv4_address: 10.0.0.9
 
 networks:
   network-monitor:
