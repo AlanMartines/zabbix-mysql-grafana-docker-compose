@@ -12,6 +12,7 @@ services:
     volumes:
       - /usr/local/docker/prometheus/data:/prometheus:rw
       - /usr/local/docker/prometheus/lib:/var/lib/prometheus:rw
+      - /usr/local/docker/prometheus/etc:/etc/prometheus:rw
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
