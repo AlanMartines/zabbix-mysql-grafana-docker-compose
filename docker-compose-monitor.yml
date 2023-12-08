@@ -207,7 +207,8 @@ services:
   mongo:
     container_name: mongo
     hostname: mongo
-    image: mongo:${TAG_MG:-4.4.6}
+    # image: mongo:${TAG_MG:-4.4.6}
+    image: docker.io/bitnami/mongodb:${TAG_MG:-5.0}
     volumes:
      - /usr/local/mongo/mongodb_data:/data/db
      - /usr/local/mongo/dump:/dump
