@@ -37,6 +37,9 @@ cd zabbix-docker-compose</code></pre>
     <li>Aplicando permições:
         <pre><code>chmod -R 777 /usr/local/docker/*</code></pre>
     </li>
+    <li>Habitar o swarm:
+        <pre><code>docker swarm init</code></pre>
+    </li>
 </ol>
 
 <h2>Implantação Frontend</h2>
@@ -73,20 +76,21 @@ cd zabbix-docker-compose</code></pre>
 <h2>Serviços Incluídos</h2>
 
 <ul>
-    <li><strong>zabbix-mysql</strong>: Banco de dados MySQL para Zabbix.</li>
-    <li><strong>zabbix-snmptraps</strong>: Serviço SNMP Traps para Zabbix.</li>
-    <li><strong>zabbix-server</strong>: Servidor Zabbix.</li>
-    <li><strong>zabbix-frontend</strong>: Frontend do Zabbix usando Nginx.</li>
-    <li><strong>zabbix-agent</strong>: Agente Zabbix.</li>
-    <li><strong>zabbix-grafana</strong>: Grafana com o plugin Zabbix.</li>
+    <li><strong>prometheus</strong>: O Prometheus é um sistema de monitoramento e alerta.</li>
+    <li><strong>node-exporter</strong>: O Node Exporter é um exportador para métricas de hardware e do sistema operacional.</li>
+    <li><strong>alert-manager</strong>: O Alertmanager gerencia alertas para o Prometheus.</li>
+    <li><strong>cadvisor</strong>: O cAdvisor (Container Advisor) fornece análise de desempenho e uso de recursos para containers em execução.</li>
+    <li><strong>netdata</strong>: Netdata é uma ferramenta de monitoramento em tempo real que oferece insights sobre métricas de performance.</li>
 </ul>
 
 <h2>Links para as Imagens Oficiais</h2>
 
 <ul>
-    <li><strong>Mysql:</strong> <a href="https://hub.docker.com/_/mysql" target="_blank">https://hub.docker.com/_/mysql</a></li>
-    <li><strong>Zabbix:</strong> <a href="https://hub.docker.com/u/zabbix" target="_blank">https://hub.docker.com/u/zabbix</a></li>
-    <li><strong>Grafana:</strong> <a href="https://hub.docker.com/u/grafana" target="_blank">https://hub.docker.com/u/grafana</a></li>
+    <li><strong>Prometheus:</strong> <a href="https://hub.docker.com/r/prom/prometheus" target="_blank">https://hub.docker.com/r/prom/prometheus</a></li>
+    <li><strong>Node Exporter:</strong> <a href="https://hub.docker.com/r/prom/node-exporter" target="_blank">https://hub.docker.com/r/prom/node-exporter</a></li>
+    <li><strong>Alertmanager:</strong> <a href="https://hub.docker.com/r/prom/alertmanager" target="_blank">https://hub.docker.com/r/prom/alertmanager</a></li>
+    <li><strong>cAdvisor:</strong> <a href="https://hub.docker.com/r/google/cadvisor" target="_blank">https://hub.docker.com/r/google/cadvisor</a></li>
+    <li><strong>Netdata:</strong> <a href="https://hub.docker.com/r/netdata/netdata" target="_blank">https://hub.docker.com/r/netdata/netdata</a</li>
 </ul>
 
 <h2>Contribuições</h2>
