@@ -207,7 +207,7 @@ services:
   mongo:
     container_name: mongo
     hostname: mongo
-    image: mongo:3.4.23
+    image: mongo:${TAG_MG:-3.4.23}
     volumes:
      - /usr/local/mongo/mongodb_data:/data/db
      - /usr/local/mongo/dump:/dump
