@@ -10,7 +10,6 @@ services:
     hostname: prometheus
     image: prom/prometheus:${TAG_PM:-latest}
     volumes:
-      - /usr/local/docker/prometheus/etc:/etc/prometheus:rw
       - /usr/local/docker/prometheus/data:/prometheus:rw
       - /usr/local/docker/prometheus/lib:/var/lib/prometheus:rw
     command:
