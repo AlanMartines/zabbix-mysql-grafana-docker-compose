@@ -57,6 +57,7 @@ services:
     image: prom/alertmanager:${TAG_ALM:-latest}
     volumes:
       - /usr/local/docker/alertmanager:/alertmanager:rw
+      - /usr/local/docker/alertmanager/etc:/etc/alertmanager:rw
     command:
       - '--config.file=/etc/alertmanager/config.yml'
       - '--storage.path=/alertmanager'
