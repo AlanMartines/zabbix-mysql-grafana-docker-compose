@@ -10,14 +10,16 @@ services:
     hostname: prometheus
     image: prom/prometheus:${TAG_PM:-latest}
     volumes:
+      - ./conf/prometheus/:/etc/prometheus:rw
       - /usr/local/docker/prometheus/data:/prometheus:rw
       - /usr/local/docker/prometheus/lib:/var/lib/prometheus:rw
-      - /usr/local/docker/prometheus/etc:/etc/prometheus:rw
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
       - '--web.console.libraries=/usr/share/prometheus/console_libraries'
       - '--web.console.templates=/usr/share/prometheus/consoles'
+    deploy:
+      mode: global
     ports:
       - 9090:9090
     networks:
@@ -57,7 +59,7 @@ services:
     image: prom/alertmanager:${TAG_ALM:-latest}
     volumes:
       - /usr/local/docker/alertmanager:/alertmanager:rw
-      - /usr/local/docker/alertmanager/etc:/etc/alertmanager:rw
+      - ./conf/alertmanager/:/etc/alertmanager:rw
       - /usr/local/docker/alertmanager/config:/config:rw
       - /usr/local/docker/alertmanager/data:/data:rw
     command:
@@ -80,7 +82,8 @@ services:
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-
+    deploy:
+      mode: global
     ports:
       - 9080:8080
     restart: unless-stopped
