@@ -8,7 +8,7 @@ services:
   prometheus:
     container_name: prometheus
     hostname: prometheus
-    image: prom/prometheus:latest
+    image: prom/prometheus:${TAG_PM:-latest}
     volumes:
       - /usr/local/docker/prometheus/etc:/etc/prometheus:rw
       - /usr/local/docker/prometheus/data:/prometheus:rw
@@ -32,7 +32,7 @@ services:
   node-exporter:
     container_name: node-exporter
     hostname: node-exporter
-    image: prom/node-exporter:latest
+    image: prom/node-exporter:${TAG_NEXP:-latest}
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
@@ -55,7 +55,7 @@ services:
   alert-manager:
     container_name: alert-manager
     hostname: alert-manager
-    image: prom/alertmanager:latest
+    image: prom/alertmanager:${TAG_ALM:-latest}
     volumes:
       - /usr/local/docker/alertmanager:/alertmanager:rw
     command:
@@ -70,7 +70,7 @@ services:
   cadvisor:
     container_name: cadvisor
     hostname: cadvisor
-    image: gcr.io/cadvisor/cadvisor:latest
+    image: gcr.io/cadvisor/cadvisor:${TAG_CAD:-latest}
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:rw
@@ -87,7 +87,7 @@ services:
         ipv4_address: 20.0.0.4
 
   netdata:
-    image: netdata/netdata
+    image: netdata/netdata:${TAG_NDT:-latest}
     container_name: netdata
     hostname: netdata
     pid: host
