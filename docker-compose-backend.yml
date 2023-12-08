@@ -89,6 +89,7 @@ services:
   netdata:
     image: netdata/netdata
     container_name: netdata
+    hostname: netdata
     pid: host
     network_mode: host
     restart: unless-stopped
