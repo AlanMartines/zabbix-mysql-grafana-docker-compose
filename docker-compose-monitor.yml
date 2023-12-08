@@ -233,7 +233,7 @@ services:
 #      - HTTPS_PROXY = ${HTTPS_PROXY:-http://proxy.domain.com}
     depends_on:
       - mongo
-    link:
+    links:
       - mongo
     ports:
       - 3080:3080
