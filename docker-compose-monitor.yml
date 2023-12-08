@@ -205,20 +205,18 @@ services:
           cpus: "0.5"
 
   mongo:
+    container_name: mongo
+    hostname: mongo
     image: mongo:3.4.23
     volumes:
      - /usr/local/mongo/mongodb_data:/data/db
      - /usr/local/mongo/dump:/dump
     command: mongod --smallfiles --oplogSize 128 --replSet rs0
 
-  mongo-init-replica:
-    image: mongo:3.4.23
-    command: 'mongo mongo/rocketchat --eval "rs.initiate({ _id: ''rs0'', members: [ { _id: 0, host: ''localhost:27017'' } ]})"'
-    depends_on:
-      - mongo
-
 # If you already have a RocketChat instance running, just comment the code of rocketchat, mongo and mongo-init-replica services bellow
   rocketchat:
+    container_name: rocketchat
+    hostname: rocketchat
     image: rocketchat/rocket.chat:${TAG_RC:-latest}
     volumes:
       - /usr/local/rocket/rocket_uploads:/app/uploads
