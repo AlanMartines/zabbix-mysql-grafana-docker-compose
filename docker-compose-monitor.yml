@@ -212,7 +212,7 @@ services:
      - /usr/local/mongo/mongodb_data:/data/db
      - /usr/local/mongo/dump:/dump
     # command: mongod --smallfiles --oplogSize 128 --replSet rs0
-    command: mongod --smallfiles --oplogSize 128 --replSet rs0
+    command: mongod --oplogSize 128 --replSet rs0
     networks:
       network-monitor:
         ipv4_address: 10.0.0.8
