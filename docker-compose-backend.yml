@@ -30,7 +30,7 @@ services:
         ipv4_address: 20.0.0.2
     links:
       - cadvisor
-      - alert-manager
+      - alertmanager
     depends_on:
       - cadvisor
 
