@@ -116,8 +116,8 @@ services:
       - /var/log:/host/var/log:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
-    ports:
-      - 19999:19999
+    # ports:
+    #   - 19999:19999
     networks:
       network-monitor:
         ipv4_address: 20.0.0.6
