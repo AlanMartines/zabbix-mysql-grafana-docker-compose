@@ -57,9 +57,9 @@ services:
       network-monitor:
         ipv4_address: 20.0.0.3
 
-  alert-manager:
-    container_name: alert-manager
-    hostname: alert-manager
+  alertmanager:
+    container_name: alertmanager
+    hostname: alertmanager
     image: prom/alertmanager:${TAG_ALM:-latest}
     volumes:
       - /usr/local/docker/alertmanager:/alertmanager:rw
