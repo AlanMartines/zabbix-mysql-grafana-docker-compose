@@ -26,7 +26,7 @@ services:
     depends_on:
       - mongo
     ports:
-      - 3080:3080
+      - 127.0.0.1:3080:3080
     container_name: rocketchat
 
   mongo:
