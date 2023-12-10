@@ -1,6 +1,7 @@
 # Criar um contêiner
 # https://medium.com/brasil/monitorando-docker-com-5-e-agent2-1a9a8d53fbd3
 # docker compose -f docker-compose-backend.yml up --build -d --no-recreate
+# docker stack deploy -c docker-compose-backend.yml up --build -d --no-recreate
 
 version: '3.9'
 
