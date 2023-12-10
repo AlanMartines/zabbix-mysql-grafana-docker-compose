@@ -51,8 +51,8 @@ services:
       - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
     deploy:
       mode: global
-    ports:
-      - 9100:9100
+    # ports:
+    #   - 9100:9100
     networks:
       network-monitor:
         ipv4_address: 20.0.0.3
@@ -71,8 +71,8 @@ services:
       - '--storage.path=/alertmanager'
     deploy:
       mode: global
-    ports:
-      - 9093:9093
+    # ports:
+    #   - 9093:9093
     networks:
       network-monitor:
         ipv4_address: 20.0.0.4
@@ -89,8 +89,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     deploy:
       mode: global
-    ports:
-      - 9080:8080
+    # ports:
+    #   - 9080:8080
     restart: unless-stopped
     networks:
       network-monitor:
