@@ -49,7 +49,8 @@ services:
       - '--path.sysfs=/host/sys'
       - --collector.filesystem.ignored-mount-points
       - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
-
+    deploy:
+      mode: global
     ports:
       - 9100:9100
     networks:
@@ -68,7 +69,8 @@ services:
     command:
       - '--config.file=/etc/alertmanager/config.yml'
       - '--storage.path=/alertmanager'
-
+    deploy:
+      mode: global
     ports:
       - 9093:9093
     networks:
