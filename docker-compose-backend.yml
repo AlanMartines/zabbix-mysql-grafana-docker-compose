@@ -32,9 +32,9 @@ services:
     depends_on:
       - cadvisor
 
-  node-exporter:
-    container_name: node-exporter
-    hostname: node-exporter
+  nodeexporter:
+    container_name: nodeexporter
+    hostname: nodeexporter
     image: prom/node-exporter:${TAG_NEXP:-latest}
     volumes:
       - /proc:/host/proc:ro
