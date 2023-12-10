@@ -144,14 +144,14 @@ services:
   zabbix-agent:
     container_name: zabbix-agent
     hostname: zabbix-agent
-    image: zabbix/zabbix-agent2:${ZB_TAG_FRONT:-latest}
-    #image: zabbix/zabbix-agent:${ZB_TAG_FRONT:-latest}
+    image: zabbix/zabbix-agent2:${ZB_TAG_AGT:-latest}
+    #image: zabbix/zabbix-agent:${ZB_TAG_AGT:-latest}
     restart: unless-stopped
     privileged: true
     environment:
       ZBX_SERVER_HOST: zabbix-server
-      GF_SERVER_ROOT_URL: ${GF_SERVER_ROOT_URL:-http://localhost:8089}
-      GF_INSTALL_PLUGINS: ${GF_INSTALL_PLUGINS:-alexanderzobnin-zabbix-app}
+      ZBX_HOSTNAME: zabbix-agent
+      ZBX_DEBUGLEVEL: 2
     # networks:
     #   - network-monitor
     # ports:
