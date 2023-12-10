@@ -60,7 +60,8 @@ services:
   alertmanager:
     container_name: alertmanager
     hostname: alertmanager
-    image: prom/alertmanager:${TAG_ALM:-latest}
+    # image: prom/alertmanager:${TAG_ALM:-latest}
+    image: quay.io/prometheus/alertmanager:${TAG_ALM:-latest}
     volumes:
       - /usr/local/docker/alertmanager:/alertmanager:rw
       - ./conf/alertmanager/:/etc/alertmanager:rw
