@@ -30,7 +30,7 @@ scrape_configs:
     - names:
       - 'tasks.cadvisor'
       type: 'A'
-      port: 8090
+      port: 8080
 
   - job_name: 'netdata'
     metrics_path: '/api/v1/allmetrics'
