@@ -122,7 +122,7 @@ services:
     image: zabbix/zabbix-web-nginx-mysql:${ZB_TAG_FRONT:-latest}
     restart: unless-stopped
     ports:
-      - "8088:8080"
+      - 127.0.0.1:8088:8080
     environment:
       ZBX_SERVER_HOST: zabbix-server
       DB_SERVER_HOST: zabbix-mysql
@@ -182,9 +182,7 @@ services:
       GF_SERVER_ROOT_URL: ${GF_SERVER_ROOT_URL:-http://localhost:8089}
       GF_INSTALL_PLUGINS: ${GF_INSTALL_PLUGINS:-alexanderzobnin-zabbix-app}
     ports:
-      - "8089:3000"
-    # depends_on:
-    #   - zabbix-prometheus
+      - 127.0.0.1:8089:3000
     # networks:
     #   - network-monitor
     networks:
