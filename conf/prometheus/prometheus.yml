@@ -17,9 +17,19 @@ scrape_configs:
     scrape_interval: 5s
     static_configs:
          - targets: ['prometheus:9090']
-
+    basic_auth:
+      username: "admin"
+      password: "12345678"
+    # Relabeling "instance" to remove the ":9100" part
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        regex: '([^:]+)(:[0-9]+)?'
+        replacement: '${1}'
+        
   - job_name: 'nodeexporter'
     scrape_interval: 5s
+    scheme: http
     static_configs:
          - targets: ['nodeexporter:9093']
 
