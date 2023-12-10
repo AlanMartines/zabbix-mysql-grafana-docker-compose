@@ -1,0 +1,55 @@
+# Criar um contêiner
+# https://medium.com/zabbix-brasil/monitorando-docker-com-zabbix-5-e-zabbix-agent2-1a9a8d53fbd3
+# docker compose -f docker-compose-rocketchat.yml up --build -d --no-recreate
+
+version: '3.9'
+
+services:
+  rocketchat:
+    container_name: rocketchat
+    image: rocket.chat:latest
+    restart: unless-stopped
+    environment:
+     - PORT=3080
+     - ROOT_URL=${ROOT_URL:-http://localhost:3080}
+     - MONGO_URL=mongodb://mongo:27017/rocketchat
+     - MONGO_OPLOG_URL=mongodb://mongo:27017/local
+    depends_on:
+     - mongo
+    ports:
+      - "3080:3080"
+
+  mongo:
+    container_name: mongo
+    image: mongo:latest
+    restart: unless-stopped
+    volumes:
+     - /usr/local/docker/mongo/data/db:/data/db
+    command: mongod --oplogSize 128 --replSet rs0 
+    labels:
+      - "traefik.enable=false"
+ 
+  # this container's job is just run the command to initialize the replica set.
+  # it will run the command and remove himself (it will not stay running)
+  mongo-init-replica:
+    image: mongo:latest
+    command: >
+      bash -c
+        "for i in `seq 1 30`; do
+            msg=$$(mongosh mongo/rocketchat --quiet --eval \"
+            rs.initiate({
+              _id: 'rs0',
+              members: [ { _id: 0, host: 'mongo:27017' } ]})\" 2>&1)
+            s=$$?
+            if [ \"$$s\" -eq 0 ]; then
+              break
+            fi
+            if [[ \"$$msg\" == \"MongoServerError: already initialized\" ]] ; then
+              echo $$msg
+              break
+            fi
+          echo \"Tried $$i times. Waiting 5 secs...\";
+          sleep 5;
+        done; (exit 0)"
+    depends_on:
+      - mongo
