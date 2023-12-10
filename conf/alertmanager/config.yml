@@ -4,10 +4,10 @@ route:
     receiver: 'rocketchat'
 
 receivers:
-    - name: 'rocketchat'
-      webhook_configs:
-          - send_resolved: false
-            url: 'rocketchat:3080'
+  - name: 'rocketchat'
+    webhook_configs:
+      - send_resolved: false
+        url: 'http://rocketchat:3080'
 
 
 ### IF YOU WANT USE SLACK, UNCOMMENT THE LINES BELLOW AND COMMENT THE LINES ABOVE
