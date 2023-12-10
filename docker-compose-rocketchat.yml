@@ -7,7 +7,7 @@ version: '3.9'
 services:
   rocketchat:
     container_name: rocketchat
-    image: rocket.chat:latest
+    image: rocket.chat:${TAG_RC:-latest}
     restart: unless-stopped
     environment:
      - PORT=3080
@@ -21,7 +21,7 @@ services:
 
   mongo:
     container_name: mongo
-    image: mongo:latest
+    image: mongo:${TAG_MG:-latest}
     restart: unless-stopped
     volumes:
      - /usr/local/docker/mongo/data/db:/data/db
@@ -32,7 +32,7 @@ services:
   # this container's job is just run the command to initialize the replica set.
   # it will run the command and remove himself (it will not stay running)
   mongo-init-replica:
-    image: mongo:latest
+    image: mongo:${TAG_MG:-latest}
     command: >
       bash -c
         "for i in `seq 1 30`; do
