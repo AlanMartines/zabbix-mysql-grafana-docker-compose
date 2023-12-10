@@ -19,8 +19,8 @@ services:
     volumes:
     - /usr/local/docker/rocketchat/uploads:/app/uploads
     environment:
-     - PORT=3080
-     - ROOT_URL=${ROOT_URL:-http://localhost:3080}
+      - PORT=3080
+      - ROOT_URL=http://localhost/rocketchat
       - MONGO_URL=mongodb://mongo:27017/rocketchat
       - MONGO_OPLOG_URL=mongodb://mongo:27017/local
     depends_on:
@@ -37,26 +37,3 @@ services:
      - /usr/local/docker/rocketchat/dump:/dump
     command: mongod --smallfiles --oplogSize 128 --replSet rs0 --storageEngine=mmapv1
     container_name: rocketchat-mongo
-
-  # this container's job is just run the command to initialize the replica set.
-  # it will run the command and remove himself (it will not stay running)
-  mongo-init-replica:
-    image: mongo:4.0
-    command: >
-      bash -c
-        "for i in `seq 1 30`; do
-          mongo mongo/rocketchat --eval \"
-            rs.initiate({
-              _id: 'rs0',
-              members: [ { _id: 0, host: 'localhost:27017' } ]})\" &&
-          s=$$? && break || s=$$?;
-          echo \"Tried $$i times. Waiting 5 secs...\";
-          sleep 5;
-        done; (exit $$s)"
-    depends_on:
-      - mongo
-
-
-volumes:
-  # store MongoDB on an (internal) Volume
-  mongo:
