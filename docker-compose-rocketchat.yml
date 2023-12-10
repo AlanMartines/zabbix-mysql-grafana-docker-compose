@@ -20,7 +20,7 @@ services:
     - /usr/local/docker/rocketchat/uploads:/app/uploads
     environment:
       - PORT=3080
-      - ROOT_URL=http://localhost/rocketchat
+      - ROOT_URL=${ROOT_URL:-http://localhost:3080}
       - MONGO_URL=mongodb://mongo:27017/rocketchat
       - MONGO_OPLOG_URL=mongodb://mongo:27017/local
     depends_on:
