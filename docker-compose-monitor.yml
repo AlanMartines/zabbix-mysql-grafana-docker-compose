@@ -53,7 +53,6 @@ services:
     image: zabbix/zabbix-server-mysql:${ZB_TAG_SRV:-latest}
     #restart: unless-stopped
     #    ports:
-    #       - "10050:10050"
     #       - "10051:10051"
     environment:
       DB_SERVER_HOST: zabbix-mysql
@@ -149,14 +148,21 @@ services:
     #image: zabbix/zabbix-agent:${ZB_TAG_FRONT:-latest}
     restart: unless-stopped
     privileged: true
+    environment:
+      ZBX_SERVER_HOST: zabbix-server
+      GF_SERVER_ROOT_URL: ${GF_SERVER_ROOT_URL:-http://localhost:8089}
+      GF_INSTALL_PLUGINS: ${GF_INSTALL_PLUGINS:-alexanderzobnin-zabbix-app}
     # networks:
     #   - network-monitor
+    # ports:
+    #   - 10050:10050
     networks:
       network-monitor:
         ipv4_address: 10.0.0.6
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
+      - /:/rootfs:ro
       - /var/run:/var/run:ro
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
