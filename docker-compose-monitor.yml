@@ -5,6 +5,9 @@
 version: '3.9'
 
 services:
+  #---------------------------------------------------#
+  #  ZABBIX-MYSQL - BANCO DE DADOS MYSQL PARA ZABBIX  #
+  #---------------------------------------------------#
   zabbix-mysql:
     container_name: zabbix-mysql
     hostname: zabbix-mysql
@@ -31,6 +34,9 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
+  #-----------------------------------------------------#
+  #  ZABBIX-SNMPTRAPS - CAPTURA SNMP TRAPS PARA ZABBIX  #
+  #-----------------------------------------------------#
   zabbix-snmptraps:
     container_name: zabbix-snmptraps
     hostname: zabbix-snmptraps
@@ -47,6 +53,9 @@ services:
       network-monitor:
         ipv4_address: 10.0.0.3
 
+  #---------------------------------------------------------------#
+  #  ZABBIX-SERVER - MONITORAMENTO ABRANGENTE DE REDE E SISTEMAS  #
+  #---------------------------------------------------------------#
   zabbix-server:
     container_name: zabbix-server
     hostname: zabbix-server
@@ -115,6 +124,9 @@ services:
           memory: 768M
           cpus: "0.5"
 
+  #-----------------------------------------------------------------#
+  #  ZABBIX-FRONTEND - INTERFACE GRÁFICA PARA GERENCIAMENTO ZABBIX  #
+  #-----------------------------------------------------------------#
   zabbix-frontend:
     container_name: zabbix-frontend
     hostname: zabbix-frontend
@@ -141,6 +153,9 @@ services:
     depends_on:
       - zabbix-server
 
+  #---------------------------------------------------------#
+  #  ZABBIX-AGENT - COLETA DADOS PARA MONITORAMENTO ZABBIX  #
+  #---------------------------------------------------------#
   zabbix-agent:
     container_name: zabbix-agent
     hostname: zabbix-agent
@@ -179,6 +194,9 @@ services:
     depends_on:
       - zabbix-server
 
+  #---------------------------------------#
+  #  GRAFANA - VISUALIZAÇÃO DAS METRICAS  #
+  #---------------------------------------#
   zabbix-grafana:
     container_name: zabbix-grafana
     hostname: zabbix-grafana
