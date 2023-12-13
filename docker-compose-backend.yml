@@ -102,7 +102,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     # ports:
     #   - 9080:8080
-    restart: unless-stopped
     networks:
       network-monitor:
         ipv4_address: 20.0.0.5
