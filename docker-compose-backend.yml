@@ -13,6 +13,7 @@ services:
     container_name: prometheus
     hostname: prometheus
     image: prom/prometheus:${TAG_PM:-latest}
+    restart: unless-stopped
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./conf/prometheus/:/etc/prometheus:rw
@@ -42,6 +43,7 @@ services:
     container_name: nodeexporter
     hostname: nodeexporter
     image: prom/node-exporter:${TAG_NEXP:-latest}
+    restart: unless-stopped
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
@@ -68,6 +70,7 @@ services:
     container_name: alertmanager
     hostname: alertmanager
     image: prom/alertmanager:${TAG_ALM:-latest}
+    restart: unless-stopped
     volumes:
       - /usr/local/docker/alertmanager:/alertmanager:rw
       - ./conf/alertmanager/:/etc/alertmanager:rw
@@ -90,6 +93,7 @@ services:
     container_name: cadvisor
     hostname: cadvisor
     image: gcr.io/cadvisor/cadvisor:${TAG_CAD:-latest}
+    restart: unless-stopped
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:rw
