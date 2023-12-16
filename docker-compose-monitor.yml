@@ -91,6 +91,7 @@ services:
       ZBX_UNAVAILABLEDELAY: 60
       ZBX_UNREACHABLEDELAY: 15
       ZBX_LOGSLOWQUERIES: 3000
+      TZ: America/Sao_Paulo
     # networks:
     #   - network-monitor
     networks:
@@ -99,6 +100,8 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
       - /usr/local/docker/zabbix/alertscripts:/usr/lib/zabbix/alertscripts:ro
       - /usr/local/docker/zabbix/extrnalscripts:/usr/lib/zabbix/externalscripts:ro
       - /usr/local/docker/zabbix/modules:/var/lib/zabbix/modules:ro
