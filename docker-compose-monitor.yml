@@ -98,8 +98,8 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
-      - /usr/local/docker/zabbix/alertscripts:/usr/lib/zabbix/alertscripts:ro
-      - /usr/local/docker/zabbix/externalscripts:/usr/lib/zabbix/externalscripts:ro
+      - /usr/local/docker/zabbix/alertscripts:/usr/lib/zabbix/alertscripts:rw
+      - /usr/local/docker/zabbix/externalscripts:/usr/lib/zabbix/externalscripts:rw
       - /usr/local/docker/zabbix/modules:/var/lib/zabbix/modules:ro
       - /usr/local/docker/zabbix/enc:/var/lib/zabbix/enc:ro
       - /usr/local/docker/zabbix/ssh_keys:/var/lib/zabbix/ssh_keys:ro
