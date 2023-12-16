@@ -1,7 +1,9 @@
 # Criar um contêiner
 # https://medium.com/zabbix-brasil/monitorando-docker-com-zabbix-5-e-zabbix-agent2-1a9a8d53fbd3
 # docker compose -f docker-compose-monitor.yml up --build -d --no-recreate
+
 version: '3.9'
+
 services:
   #---------------------------------------------------#
   #  ZABBIX-MYSQL - BANCO DE DADOS MYSQL PARA ZABBIX  #
@@ -31,6 +33,7 @@ services:
         ipv4_address: 10.0.0.2
     extra_hosts:
       - "host.docker.internal:host-gateway"
+
   #-----------------------------------------------------#
   #  ZABBIX-SNMPTRAPS - CAPTURA SNMP TRAPS PARA ZABBIX  #
   #-----------------------------------------------------#
@@ -42,6 +45,8 @@ services:
     # ports:
     #   - "162:1162/udp"
     volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
       - /usr/local/docker/zabbix/snmptraps:/var/lib/zabbix/snmptraps:rw
       - /usr/local/docker/zabbix/mibs:/usr/share/snmp/mibs:ro
   #   networks:
@@ -49,6 +54,7 @@ services:
     networks:
       network-monitor:
         ipv4_address: 10.0.0.3
+
   #---------------------------------------------------------------#
   #  ZABBIX-SERVER - MONITORAMENTO ABRANGENTE DE REDE E SISTEMAS  #
   #---------------------------------------------------------------#
@@ -87,7 +93,6 @@ services:
       ZBX_UNAVAILABLEDELAY: 60
       ZBX_UNREACHABLEDELAY: 15
       ZBX_LOGSLOWQUERIES: 3000
-      TZ: America/Sao_Paulo
     # networks:
     #   - network-monitor
     networks:
@@ -98,8 +103,8 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
-      - /usr/local/docker/zabbix/alertscripts:/usr/lib/zabbix/alertscripts:rw
-      - /usr/local/docker/zabbix/externalscripts:/usr/lib/zabbix/externalscripts:rw
+      - /usr/local/docker/zabbix/alertscripts:/usr/lib/zabbix/alertscripts:ro
+      - /usr/local/docker/zabbix/externalscripts:/usr/lib/zabbix/externalscripts:ro
       - /usr/local/docker/zabbix/modules:/var/lib/zabbix/modules:ro
       - /usr/local/docker/zabbix/enc:/var/lib/zabbix/enc:ro
       - /usr/local/docker/zabbix/ssh_keys:/var/lib/zabbix/ssh_keys:ro
@@ -122,6 +127,7 @@ services:
         reservations:
           memory: 768M
           cpus: "0.5"
+
   #-----------------------------------------------------------------#
   #  ZABBIX-FRONTEND - INTERFACE GRÁFICA PARA GERENCIAMENTO ZABBIX  #
   #-----------------------------------------------------------------#
@@ -148,8 +154,22 @@ services:
     networks:
       network-monitor:
         ipv4_address: 10.0.0.5
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    deploy:
+      restart_policy:
+        condition: unless-stopped
+      resources:
+        limits:
+          cpus: '0.70'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
     depends_on:
       - zabbix-server
+
   #---------------------------------------------------------#
   #  ZABBIX-AGENT - COLETA DADOS PARA MONITORAMENTO ZABBIX  #
   #---------------------------------------------------------#
@@ -186,10 +206,21 @@ services:
       - /usr/local/docker/zabbix/ssh_keys:/var/lib/zabbix/ssh_keys:ro
     # command:
     #   - "--add-host=host.docker.internal:host-gateway"
+    deploy:
+      restart_policy:
+        condition: unless-stopped
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: 128M
+        reservations:
+          cpus: '0.1'
+          memory: 64M
     links:
       - zabbix-server
     depends_on:
       - zabbix-server
+
   #---------------------------------------#
   #  GRAFANA - VISUALIZAÇÃO DAS METRICAS  #
   #---------------------------------------#
@@ -209,6 +240,8 @@ services:
       network-monitor:
         ipv4_address: 10.0.0.7
     volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
       - /usr/local/docker/grafana_storage:/var/lib/grafana:rw
     user: "0"
     deploy:
@@ -221,6 +254,7 @@ services:
         reservations:
           memory: 512M
           cpus: "0.5"
+
 networks:
   network-monitor:
     driver: bridge
