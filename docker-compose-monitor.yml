@@ -58,6 +58,11 @@ services:
   #---------------------------------------------------------------#
   #  ZABBIX-SERVER - MONITORAMENTO ABRANGENTE DE REDE E SISTEMAS  #
   #---------------------------------------------------------------#
+  # Nota: Instalar python apos criação do container
+  # apk add --update --no-cache python3 && ln -sf python3 /usr/bin/python
+  # python3 -m ensurepip
+  # pip3 install --no-cache --upgrade pip setuptools
+  #
   zabbix-server:
     container_name: zabbix-server
     hostname: zabbix-server
