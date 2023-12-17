@@ -15,7 +15,6 @@ services:
     restart: unless-stopped
     volumes:
       - /usr/local/docker/zabbix/mysql/data:/var/lib/mysql
-      - ./my.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-secret}
       MYSQL_DATABASE: ${MYSQL_DATABASE:-zabbix}
