@@ -21,6 +21,8 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE:-zabbix}
       MYSQL_USER: ${MYSQL_USER:-zabbix}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:-zabbix}
+      MYSQL_CHARACTER_SET_SERVER: utf8mb4
+      MYSQL_COLLATION_SERVER: utf8mb4_unicode_ci
     command:
       - "--default-authentication-plugin=mysql_native_password"
       - "--character-set-server=utf8mb4"
