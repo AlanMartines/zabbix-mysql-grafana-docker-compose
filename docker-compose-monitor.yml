@@ -15,6 +15,7 @@ services:
     restart: unless-stopped
     volumes:
       - /usr/local/docker/zabbix/mysql/data:/var/lib/mysql
+      - ./my.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-secret}
       MYSQL_DATABASE: ${MYSQL_DATABASE:-zabbix}
@@ -69,15 +70,15 @@ services:
   # pip3 install requests
   # pip3 install cloudscraper
   #
-  # pip3 beautifulsoup4==4.9.0
-  # pip3 certifi==2020.4.5.1
-  # pip3 chardet==3.0.4
-  # pip3 cloudscraper==1.2.33
-  # pip3 idna==2.9
-  # pip3 requests==2.23.0
-  # pip3 requests-toolbelt==0.9.1
-  # pip3 soupsieve==2.0
-  # pip3 urllib3==1.25.9
+  # pip3 install beautifulsoup4==4.9.0
+  # pip3 install certifi==2020.4.5.1
+  # pip3 install chardet==3.0.4
+  # pip3 install cloudscraper==1.2.33
+  # pip3 install idna==2.9
+  # pip3 install requests==2.23.0
+  # pip3 install requests-toolbelt==0.9.1
+  # pip3 install soupsieve==2.0
+  # pip3 install urllib3==1.25.9
   #
   zabbix-server:
     container_name: zabbix-server
