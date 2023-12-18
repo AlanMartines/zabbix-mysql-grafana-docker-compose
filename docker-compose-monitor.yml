@@ -206,8 +206,8 @@ services:
   zabbix-agent:
     container_name: zabbix-agent
     hostname: zabbix-agent
-    image: zabbix/zabbix-agent2:ubuntu-${ZB_TAG_AGT:-latest}
-    #image: zabbix/zabbix-agent2:${ZB_TAG_AGT:-latest}
+    #image: zabbix/zabbix-agent2:ubuntu-${ZB_TAG_AGT:-latest}
+    image: zabbix/zabbix-agent2:${ZB_TAG_AGT:-latest}
     #image: zabbix/zabbix-agent:${ZB_TAG_AGT:-latest}
     restart: unless-stopped
     privileged: true
