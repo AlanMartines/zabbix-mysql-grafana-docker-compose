@@ -223,7 +223,7 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       #- /usr/local/docker/zabbix/zabbix_agentd.d:/etc/zabbix/zabbix_agentd.d:ro
-      - /usr/local/docker/zabbix/zabbix_agent2.d/zabbix_agent2.conf:/etc/zabbix/zabbix_agent2.d/zabbix_agent2.conf:ro
+      - /usr/local/docker/zabbix/zabbix_agent2.d/zabbix_agent2.conf:/etc/zabbix/zabbix_agent2.d/zabbix_agent2.conf:rw
       - /usr/local/docker/zabbix/modules:/var/lib/zabbix/modules:ro
       - /usr/local/docker/zabbix/enc:/var/lib/zabbix/enc:ro
       - /usr/local/docker/zabbix/ssh_keys:/var/lib/zabbix/ssh_keys:ro
