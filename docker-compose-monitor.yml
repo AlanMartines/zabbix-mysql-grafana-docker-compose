@@ -227,7 +227,10 @@ services:
       - /usr/local/docker/zabbix-agent/enc:/var/lib/zabbix/enc:ro
       - /usr/local/docker/zabbix-agent/ssh_keys:/var/lib/zabbix/ssh_keys:ro
       - /usr/local/docker/zabbix-agent/zabbix_agentd.d:/etc/zabbix/zabbix_agentd.d:ro
-    # command:
+      - /usr/local/docker/zabbix-agent/zabbix_agent2.d:/etc/zabbix/zabbix_agent2.d:ro
+    command:
+      - "mkdir -p /etc/zabbix/zabbix_agent.d"
+      - "mkdir -p /etc/zabbix/zabbix_agent2.d"
     #   - "--add-host=host.docker.internal:host-gateway"
     deploy:
       restart_policy:
