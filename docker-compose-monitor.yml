@@ -14,7 +14,7 @@ services:
     image: mysql:${MYSQL_TAG:-latest}
     restart: unless-stopped
     volumes:
-      - /usr/local/docker/zabbix/mysql/data:/var/lib/mysql
+      - /usr/local/docker/zabbix-mysql/mysql/data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-secret}
       MYSQL_DATABASE: ${MYSQL_DATABASE:-zabbix}
@@ -47,8 +47,8 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
-      - /usr/local/docker/zabbix/snmptraps:/var/lib/zabbix/snmptraps:rw
-      - /usr/local/docker/zabbix/mibs:/usr/share/snmp/mibs:ro
+      - /usr/local/docker/zabbix-snmptraps/snmptraps:/var/lib/zabbix/snmptraps:rw
+      - /usr/local/docker/zabbix-snmptraps/mibs:/usr/share/snmp/mibs:ro
     # ports:
     #   - "162:1162/udp"
     # networks:
@@ -111,12 +111,13 @@ services:
       ZBX_CACHEUPDATEFREQUENCY: 10
       ZBX_STARTDBSYNCERS: 4
       ZBX_EXPORTFILESIZE: 1G
-      ZBX_HISTORYCACHESIZE: 16M
-      ZBX_HISTORYINDEXCACHESIZE: 4M
+      ZBX_CACHESIZE: 128M
+      ZBX_HISTORYCACHESIZE: 128M
+      ZBX_HISTORYINDEXCACHESIZE: 128M
       ZBX_HISTORYSTORAGEDATEINDEX: 0
-      ZBX_TRENDCACHESIZE: 4M
+      ZBX_TRENDCACHESIZE: 128M
       ZBX_TRENDFUNCTIONCACHESIZE: 4M
-      ZBX_VALUECACHESIZE: 8M
+      ZBX_VALUECACHESIZE: 128M
       ZBX_UNREACHABLEPERIOD: 45
       ZBX_UNAVAILABLEDELAY: 60
       ZBX_UNREACHABLEDELAY: 15
@@ -126,15 +127,15 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
-      - /usr/local/docker/zabbix/alertscripts:/usr/lib/zabbix/alertscripts:ro
-      - /usr/local/docker/zabbix/externalscripts:/usr/lib/zabbix/externalscripts:ro
-      - /usr/local/docker/zabbix/modules:/var/lib/zabbix/modules:ro
-      - /usr/local/docker/zabbix/enc:/var/lib/zabbix/enc:ro
-      - /usr/local/docker/zabbix/ssh_keys:/var/lib/zabbix/ssh_keys:ro
-      - /usr/local/docker/zabbix/mibs:/var/lib/zabbix/mibs:ro
-      - /usr/local/docker/zabbix/snmptraps:/var/lib/zabbix/snmptraps:ro
-      - /usr/local/docker/zabbix/ssl/certs:/var/lib/zabbix/ssl/certs:ro
-      - /usr/local/docker/zabbix/ssl/keys:/var/lib/zabbix/ssl/keys:ro
+      - /usr/local/docker/zabbix-server/alertscripts:/usr/lib/zabbix/alertscripts:ro
+      - /usr/local/docker/zabbix-server/externalscripts:/usr/lib/zabbix/externalscripts:ro
+      - /usr/local/docker/zabbix-server/modules:/var/lib/zabbix/modules:ro
+      - /usr/local/docker/zabbix-server/enc:/var/lib/zabbix/enc:ro
+      - /usr/local/docker/zabbix-server/ssh_keys:/var/lib/zabbix/ssh_keys:ro
+      - /usr/local/docker/zabbix-server/mibs:/var/lib/zabbix/mibs:ro
+      - /usr/local/docker/zabbix-server/snmptraps:/var/lib/zabbix/snmptraps:ro
+      - /usr/local/docker/zabbix-server/ssl/certs:/var/lib/zabbix/ssl/certs:ro
+      - /usr/local/docker/zabbix-server/ssl/keys:/var/lib/zabbix/ssl/keys:ro
     volumes_from:
       - zabbix-snmptraps
     depends_on:
@@ -206,7 +207,6 @@ services:
   zabbix-agent:
     container_name: zabbix-agent
     hostname: zabbix-agent
-    #image: zabbix/zabbix-agent2:ubuntu-${ZB_TAG_AGT:-latest}
     image: zabbix/zabbix-agent2:${ZB_TAG_AGT:-latest}
     #image: zabbix/zabbix-agent:${ZB_TAG_AGT:-latest}
     restart: unless-stopped
@@ -223,9 +223,10 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /usr/local/docker/zabbix/modules:/var/lib/zabbix/modules:ro
-      - /usr/local/docker/zabbix/enc:/var/lib/zabbix/enc:ro
-      - /usr/local/docker/zabbix/ssh_keys:/var/lib/zabbix/ssh_keys:ro
+      - /usr/local/docker/zabbix-agent/modules:/var/lib/zabbix/modules:ro
+      - /usr/local/docker/zabbix-agent/enc:/var/lib/zabbix/enc:ro
+      - /usr/local/docker/zabbix-agent/ssh_keys:/var/lib/zabbix/ssh_keys:ro
+      - /usr/local/docker/zabbix-agent/zabbix_agentd.d:/etc/zabbix/zabbix_agentd.d:ro
     # command:
     #   - "--add-host=host.docker.internal:host-gateway"
     deploy:
@@ -265,7 +266,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
-      - /usr/local/docker/grafana_storage:/var/lib/grafana:rw
+      - /usr/local/docker/zabbix-grafana:/var/lib/grafana:rw
     user: "0"
     deploy:
       restart_policy:
