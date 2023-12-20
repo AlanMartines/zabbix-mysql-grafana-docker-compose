@@ -204,12 +204,14 @@ services:
   #---------------------------------------------------------#
   #  ZABBIX-AGENT - COLETA DADOS PARA MONITORAMENTO ZABBIX  #
   #---------------------------------------------------------#
+  #
   # Nota: Exec in host
   # usermod -aG docker ${USER}
   # usermod -aG docker zabbix
   # chmod 666 /var/run/docker.sock
   # apt install zabbix-get -y
   # zabbix_get -s <pi-host> -k docker.info
+  #
   zabbix-agent:
     container_name: zabbix-agent
     hostname: zabbix-agent
