@@ -93,6 +93,46 @@ cd zabbix-docker-compose</code></pre>
     <li><strong>Netdata:</strong> <a href="https://hub.docker.com/r/netdata/netdata" target="_blank">https://hub.docker.com/r/netdata/netdata</a</li>
 </ul>
 
+<h1>Nota</h1>
+<h2>Instalação do Python e Dependências após a criação do container zabbix-server</h2>
+<pre>
+<code>
+docker exec -it zabbix-server /bin/bash
+apk add --update --no-cache python3 && ln -sf python3 /usr/bin/python
+python3 -m ensurepip
+pip3 install --no-cache --upgrade pip setuptools
+</code>
+</pre>
+
+<h2>Dependências</h2>
+<pre>
+<code>
+pip3 install bs4
+pip3 install requests
+pip3 install cloudscraper
+pip3 install beautifulsoup4==4.9.0
+pip3 install certifi==2020.4.5.1
+pip3 install chardet==3.0.4
+pip3 install cloudscraper==1.2.33
+pip3 install idna==2.9
+pip3 install requests==2.23.0
+pip3 install requests-toolbelt==0.9.1
+pip3 install soupsieve==2.0
+pip3 install urllib3==1.25.9
+</code>
+</pre>
+
+<h2>Executar comandos no host após a criação do container zabbix-agent</h2>
+<pre>
+<code>
+usermod -aG docker ${USER}
+usermod -aG docker zabbix
+chmod 666 /var/run/docker.sock
+apt install zabbix-get -y
+zabbix_get -s ip-host -k docker.info
+</code>
+</pre>
+
 <h2>Contribuições</h2>
 
 <p><a href="CONTRIBUTING.md">Contribuições</a> são bem-vindas! Por favor, abra uma issue ou pull request.</p>
