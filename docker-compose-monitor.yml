@@ -122,8 +122,6 @@ services:
       ZBX_UNAVAILABLEDELAY: 60
       ZBX_UNREACHABLEDELAY: 15
       ZBX_LOGSLOWQUERIES: 3000
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
@@ -151,6 +149,8 @@ services:
         reservations:
           memory: 768M
           cpus: "0.5"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     # ports:
     #   - "10051:10051"
     # networks:
@@ -228,8 +228,6 @@ services:
       - /usr/local/docker/zabbix-agent/ssh_keys:/var/lib/zabbix/ssh_keys:ro
       # - /usr/local/docker/zabbix-agent/zabbix_agentd.d:/etc/zabbix/zabbix_agentd.d:ro
       # - /usr/local/docker/zabbix-agent/zabbix_agent2.d:/etc/zabbix/zabbix_agent2.d:ro
-    command:
-      # - "--add-host=host.docker.internal:host-gateway"
     deploy:
       restart_policy:
         condition: unless-stopped
