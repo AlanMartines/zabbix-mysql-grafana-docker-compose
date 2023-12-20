@@ -227,8 +227,8 @@ services:
       - /usr/local/docker/zabbix-agent/modules:/var/lib/zabbix/modules:ro
       - /usr/local/docker/zabbix-agent/enc:/var/lib/zabbix/enc:ro
       - /usr/local/docker/zabbix-agent/ssh_keys:/var/lib/zabbix/ssh_keys:ro
-      # - /usr/local/docker/zabbix-agent/zabbix_agentd.d:/etc/zabbix/zabbix_agentd.d:ro
-      # - /usr/local/docker/zabbix-agent/zabbix_agent2.d:/etc/zabbix/zabbix_agent2.d:ro
+      - /usr/local/docker/zabbix-agent/zabbix_agentd.d:/etc/zabbix/zabbix_agentd.d:ro
+      - /usr/local/docker/zabbix-agent/zabbix_agent2.d:/etc/zabbix/zabbix_agent2.d:ro
     deploy:
       restart_policy:
         condition: unless-stopped
