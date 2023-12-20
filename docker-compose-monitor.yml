@@ -204,6 +204,7 @@ services:
   #---------------------------------------------------------#
   #  ZABBIX-AGENT - COLETA DADOS PARA MONITORAMENTO ZABBIX  #
   #---------------------------------------------------------#
+  # Nota: Exec in host: sudo chmod 666 /var/run/docker.sock
   zabbix-agent:
     container_name: zabbix-agent
     hostname: zabbix-agent
