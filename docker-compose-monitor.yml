@@ -215,6 +215,7 @@ services:
       ZBX_SERVER_HOST: zabbix-server
       ZBX_HOSTNAME: zabbix-agent
       ZBX_DEBUGLEVEL: 2
+      ZBX_HOSTNAMEITEM: system.hostname
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
