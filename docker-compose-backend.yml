@@ -139,6 +139,24 @@ services:
       network-monitor:
         ipv4_address: 20.0.0.6
 
+  #------------------------------------#
+  #  NGINX - NGINX Ingress Controller  #
+  #------------------------------------#
+  nginxexporter:
+    image: nginx/nginx-prometheus-exporter:latest
+    container_name: nginxexporter
+    hostname: nginxexporter
+    restart: unless-stopped
+    command: 
+      - "--nginx.scrape-uri=http://nginx:80/stub_status"
+
+    # ports:
+    #   - 9113:9113
+    networks:
+      network-monitor:
+        ipv4_address: 20.0.0.7
+
+
 networks:
   network-monitor:
     driver: bridge

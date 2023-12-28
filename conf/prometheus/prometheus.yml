@@ -63,3 +63,13 @@ scrape_configs:
     static_configs:
          - targets: ['netdata:19999']
 
+
+  - job_name: 'nginxexporter'
+    metrics_path: '/metrics'
+    scheme: http
+    params:
+      format: [prometheus]
+    honor_labels: true
+    scrape_interval: 5s
+    static_configs:
+         - targets: ['nginxexporter:9113']
