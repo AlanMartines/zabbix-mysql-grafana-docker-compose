@@ -149,7 +149,6 @@ services:
     restart: unless-stopped
     command: 
       - "--nginx.scrape-uri=http://20.0.0.1:80/basic_status"
-      - "--web.telemetry-path=/metrics"
 
     # ports:
     #   - 9113:9113
