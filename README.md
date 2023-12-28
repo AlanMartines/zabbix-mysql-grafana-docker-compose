@@ -133,18 +133,14 @@ vim /etc/nginx/conf.d/status.conf
 <pre>
 <code>
 server {
-    listen 8080;
-    # Optionally: allow access only from localhost
-    # listen 127.0.0.1:8080;
-
-        server_name _;
-
-		location = /basic_status {
-			stub_status;
-			allow 127.0.0.1;
-			allow ::1;
-			deny all;
-		}
+	listen 127.0.0.1:80;
+	server_name 127.0.0.1;
+	location /nginx_status {
+		stub_status on;
+		access_log off;
+		allow 127.0.0.1;
+		deny all;
+	}
 }
 </code>
 </pre>
