@@ -139,9 +139,12 @@ server {
 
         server_name _;
 
-    location /status {
-        stub_status;
-    }
+		location = /basic_status {
+			stub_status;
+			allow 127.0.0.1;
+			allow ::1;
+			deny all;
+		}
 }
 </code>
 </pre>
@@ -154,16 +157,6 @@ systemctl reload nginx
 </code>
 </pre>
 
-<h2>Expose Basic Nginx Metrics</h2>
-<pre>
-<code>
-usermod -aG docker ${USER}
-usermod -aG docker zabbix
-chmod 666 /var/run/docker.sock
-apt install zabbix-get -y
-zabbix_get -s ip-host -k docker.info
-</code>
-</pre>
 
 <h2>Contribuições</h2>
 
