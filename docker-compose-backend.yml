@@ -148,7 +148,7 @@ services:
     hostname: nginxexporter
     restart: unless-stopped
     command: 
-      - "--nginx.scrape-uri=http://nginx:80/stub_status"
+      - "--nginx.scrape-uri=http://20.0.0.1:80/stub_status"
 
     # ports:
     #   - 9113:9113
