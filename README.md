@@ -122,7 +122,39 @@ pip3 install urllib3==1.25.9
 </code>
 </pre>
 
-<h2>Executar comandos no host após a criação do container zabbix-agent</h2>
+<h2>Expose Basic Nginx Metrics</h2>
+<pre>
+<code>
+vim /etc/nginx/conf.d/status.conf
+</code>
+</pre>
+
+<h2>nginx/status.conf</h2>
+<pre>
+<code>
+server {
+    listen 8080;
+    # Optionally: allow access only from localhost
+    # listen 127.0.0.1:8080;
+
+        server_name _;
+
+    location /status {
+        stub_status;
+    }
+}
+</code>
+</pre>
+
+<h2>Restarting Nginx</h2>
+<pre>
+<code>
+nginx -t
+systemctl reload nginx
+</code>
+</pre>
+
+<h2>Expose Basic Nginx Metrics</h2>
 <pre>
 <code>
 usermod -aG docker ${USER}
