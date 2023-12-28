@@ -147,8 +147,10 @@ services:
     container_name: nginxexporter
     hostname: nginxexporter
     restart: unless-stopped
+    environment:
+      - IP_HOST: ${IP_HOST:-127.0.0.1}
     command: 
-      - "--nginx.scrape-uri=http://20.0.0.1/basic_status"
+      - "--nginx.scrape-uri=http://${IP_HOST}/basic_status"
 
     # ports:
     #   - 9113:9113
