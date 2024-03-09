@@ -81,6 +81,7 @@ cd zabbix-docker-compose</code></pre>
     <li><strong>alert-manager</strong>: O Alertmanager gerencia alertas para o Prometheus.</li>
     <li><strong>cadvisor</strong>: O cAdvisor (Container Advisor) fornece análise de desempenho e uso de recursos para containers em execução.</li>
     <li><strong>netdata</strong>: Netdata é uma ferramenta de monitoramento em tempo real que oferece insights sobre métricas de performance.</li>
+    <li><strong>nginx-prometheus-exporter</strong>: Nginx Prometheus Exporter torna possível monitorar o NGINX ou NGINX Plus usando o Prometheus.</li>
 </ul>
 
 <h2>Links para as Imagens Oficiais</h2>
