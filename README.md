@@ -37,7 +37,7 @@ cd zabbix-docker-compose</code></pre>
     <li>Aplicando permições:
         <pre><code>chmod -R 777 /usr/local/docker/*</code></pre>
     </li>
-    <li>Habitar o swarm:
+    <li>Habitar o swarm (Opicional):
         <pre><code>docker swarm init</code></pre>
     </li>
 </ol>
@@ -97,7 +97,7 @@ cd zabbix-docker-compose</code></pre>
 <h2>Instalação do Python e Dependências após a criação do container zabbix-server</h2>
 <pre>
 <code>
-docker exec -it zabbix-server /bin/bash
+docker exec -it -u root zabbix-server /bin/bash
 apk add --update --no-cache python3 && ln -sf python3 /usr/bin/python
 python3 -m ensurepip
 pip3 install --no-cache --upgrade pip setuptools
