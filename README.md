@@ -91,7 +91,7 @@ cd zabbix-docker-compose</code></pre>
     <li><strong>Alertmanager:</strong> <a href="https://hub.docker.com/r/prom/alertmanager" target="_blank">https://hub.docker.com/r/prom/alertmanager</a></li>
     <li><strong>cAdvisor:</strong> <a href="https://hub.docker.com/r/google/cadvisor" target="_blank">https://hub.docker.com/r/google/cadvisor</a></li>
     <li><strong>Netdata:</strong> <a href="https://hub.docker.com/r/netdata/netdata" target="_blank">https://hub.docker.com/r/netdata/netdata</a</li>
-    <li><strong>Nginx Prometheus Exporter:</strong> <a href="https://hub.docker.com/r/nginx/nginx-prometheus-exporter/tags" target="_blank">https://hub.docker.com/r/nginx/nginx-prometheus-exporter/tags</a</li>
+    <li><strong>Nginx Prometheus Exporter:</strong> <a href="https://hub.docker.com/r/nginx/nginx-prometheus-exporter/" target="_blank">https://hub.docker.com/r/nginx/nginx-prometheus-exporter/</a</li>
 </ul>
 
 <h1>Nota</h1>
