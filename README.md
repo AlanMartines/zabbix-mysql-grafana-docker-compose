@@ -122,6 +122,7 @@ pip3 install requests==2.23.0
 pip3 install requests-toolbelt==0.9.1
 pip3 install soupsieve==2.0
 pip3 install urllib3==1.25.9
+pip3 install --upgrade urllib3 chardet requests
 </code>
 </pre>
 
