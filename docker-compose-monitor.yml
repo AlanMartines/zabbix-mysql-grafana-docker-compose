@@ -89,13 +89,6 @@ services:
     hostname: zabbix-server
     image: zabbix/zabbix-server-mysql:${ZB_TAG_SRV:-latest}
     #restart: unless-stopped
-    # command: >
-    #   /bin/sh -c "
-    #   apk add --update --no-cache python3 && 
-    #   ln -sf python3 /usr/bin/python &&
-    #   python3 -m ensurepip &&
-    #   pip3 install --no-cache --upgrade pip setuptools
-    #   "
     environment:
       DB_SERVER_HOST: zabbix-mysql
       DB_SERVER_PORT: "3306"
