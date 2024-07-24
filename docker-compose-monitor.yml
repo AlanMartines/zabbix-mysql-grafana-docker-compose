@@ -172,7 +172,8 @@ services:
       MYSQL_USER: ${MYSQL_USER:-zabbix}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:-zabbix}
       PHP_TZ: "America/Caracas"
-      ZBX_POSTMAXSIZE: 64M
+      ZBX_POSTMAXSIZE: 1024M
+      ZBX_UPLOADMAXFILESIZE: 1024M
       ZBX_MAXEXECUTIONTIME: 500
     volumes:
       - /etc/localtime:/etc/localtime:ro
