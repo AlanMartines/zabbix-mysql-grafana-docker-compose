@@ -100,10 +100,8 @@ cd zabbix-docker-compose</code></pre>
 <pre>
 <code>
 docker exec -it -u root zabbix-server /bin/bash
-apk add --update --no-cache python3 && ln -sf python3 /usr/bin/python
+apt install -y python3 py3-pip
 rm /usr/lib/python*/EXTERNALLY-MANAGED
-apk add python3 py3-pip
-python3 -m ensurepip
 pip3 install --no-cache --upgrade pip setuptools
 pip3 install requests
 </code>
