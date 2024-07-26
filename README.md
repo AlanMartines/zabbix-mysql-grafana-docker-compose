@@ -100,28 +100,27 @@ cd zabbix-docker-compose</code></pre>
 <pre>
 <code>
 docker exec -it -u root zabbix-server /bin/bash
-apt install -y python3 py3-pip
+apt install -y build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev wget
+apt install -y python3 python3-pip
 rm /usr/lib/python*/EXTERNALLY-MANAGED
-pip3 install --no-cache --upgrade pip setuptools
-pip3 install requests
 </code>
 </pre>
 
 <h2>Dependências</h2>
 <pre>
 <code>
-pip3 install bs4
-pip3 install requests
-pip3 install cloudscraper
-pip3 install requests six
-pip3 install beautifulsoup4==4.9.0
-pip3 install certifi==2020.4.5.1
-pip3 install chardet==3.0.4
-pip3 install cloudscraper==1.2.33
-pip3 install idna==2.9
-pip3 install requests-toolbelt==0.9.1
-pip3 install soupsieve==2.0
-pip3 install urllib3==1.25.9
+pip3 install bs4 \
+pip3 install requests \
+pip3 install cloudscraper \
+pip3 install requests six \
+pip3 install beautifulsoup4==4.9.0 \
+pip3 install certifi==2020.4.5.1 \
+pip3 install chardet==3.0.4 \
+pip3 install cloudscraper==1.2.33 \
+pip3 install idna==2.9 \
+pip3 install requests-toolbelt==0.9.1 \
+pip3 install soupsieve==2.0 \
+pip3 install urllib3==1.25.9 \
 pip3 install --upgrade urllib3 chardet requests
 </code>
 </pre>
