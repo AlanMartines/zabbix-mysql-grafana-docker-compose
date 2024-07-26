@@ -221,6 +221,8 @@ services:
       - /var/run:/var/run:ro
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
+      - /etc/hostname:/etc/hostname:ro
+      - /etc/hosts:/etc/hosts:ro
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
       - /dev:/host/dev:ro
