@@ -96,7 +96,7 @@ cd zabbix-docker-compose</code></pre>
 </ul>
 
 <h1>Nota</h1>
-<h2>Instalação do Python e Dependências após a criação do container zabbix-server</h2>
+<h2>Instalação de Dependências após a criação do container zabbix-server (Ubuntu)</h2>
 <pre>
 <code>
 docker exec -it -u root zabbix-server /bin/bash
