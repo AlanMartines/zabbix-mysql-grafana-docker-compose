@@ -58,32 +58,6 @@ services:
   #---------------------------------------------------------------#
   #  ZABBIX-SERVER - MONITORAMENTO ABRANGENTE DE REDE E SISTEMAS  #
   #---------------------------------------------------------------#
-  #
-  # Nota: Instalar python e dependencias apos criação do container
-  # docker exec -it -u root zabbix-server /bin/bash
-  # apk add --update --no-cache python3 && ln -sf python3 /usr/bin/python
-  # rm /usr/lib/python*/EXTERNALLY-MANAGED
-  # python3 -m ensurepip
-  # pip3 install --no-cache --upgrade pip setuptools
-  #
-  # Requirements
-  # pip3 install bs4
-  # pip3 install requests
-  # pip3 install cloudscraper
-  # pip3 install requests six
-
-  # pip3 install beautifulsoup4==4.9.0
-  # pip3 install certifi==2020.4.5.1
-  # pip3 install chardet==3.0.4
-  # pip3 install cloudscraper==1.2.33
-  # pip3 install idna==2.9
-  # pip3 install requests==2.23.0
-  # pip3 install requests-toolbelt==0.9.1
-  # pip3 install soupsieve==2.0
-  # pip3 install urllib3==1.25.9
-
-  # pip3 install --upgrade urllib3 chardet requests
-  #
   zabbix-server:
     container_name: zabbix-server
     hostname: zabbix-server
