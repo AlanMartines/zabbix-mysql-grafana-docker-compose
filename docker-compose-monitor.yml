@@ -225,7 +225,10 @@ services:
       - /sys:/host/sys:ro
       - /dev:/host/dev:ro
       - /etc:/host/etc:ro
+      - /var/log:/host/var/log:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/ssl/certs:/etc/ssl/certs:ro
+      - /usr/local/docker/zabbix-agent/scripts:/etc/zabbix/scripts:ro
       - /usr/local/docker/zabbix-agent/modules:/var/lib/zabbix/modules:ro
       - /usr/local/docker/zabbix-agent/enc:/var/lib/zabbix/enc:ro
       - /usr/local/docker/zabbix-agent/ssh_keys:/var/lib/zabbix/ssh_keys:ro
