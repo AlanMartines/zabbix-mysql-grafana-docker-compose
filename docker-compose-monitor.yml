@@ -62,7 +62,7 @@ services:
     container_name: zabbix-server
     hostname: zabbix-server
     image: zabbix/zabbix-server-mysql:${ZB_TAG_SRV:-latest}
-    #restart: unless-stopped
+    restart: unless-stopped
     environment:
       DB_SERVER_HOST: zabbix-mysql
       DB_SERVER_PORT: "3306"
@@ -109,16 +109,16 @@ services:
     depends_on:
       - zabbix-mysql
       - zabbix-snmptraps
-    deploy:
-      restart_policy:
-        condition: unless-stopped
-      resources:
-        limits:
-          cpus: "1"
-          memory: 1280M
-        reservations:
-          memory: 768M
-          cpus: "0.5"
+    # deploy:
+    #   restart_policy:
+    #     condition: unless-stopped
+    #   resources:
+    #     limits:
+    #       cpus: "1"
+    #       memory: 1280M
+    #     reservations:
+    #       memory: 768M
+    #       cpus: "0.5"
     extra_hosts:
       - "host.docker.internal:host-gateway"
     # ports:
