@@ -26,6 +26,16 @@ services:
       - "--collation-server=utf8mb4_unicode_ci"
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    # deploy:
+    #   restart_policy:
+    #     condition: unless-stopped
+    #   resources:
+    #     limits:
+    #       cpus: '2'
+    #       memory: 2048M
+    #     reservations:
+    #       cpus: '1'
+    #       memory: 1024M
     # networks:
     #   - network-monitor
     # ports:
@@ -47,6 +57,16 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /usr/local/docker/zabbix-snmptraps/snmptraps:/var/lib/zabbix/snmptraps:rw
       - /usr/local/docker/zabbix-snmptraps/mibs:/usr/share/snmp/mibs:ro
+    # deploy:
+    #   restart_policy:
+    #     condition: unless-stopped
+    #   resources:
+    #     limits:
+    #       cpus: '2'
+    #       memory: 2048M
+    #     reservations:
+    #       cpus: '1'
+    #       memory: 1024M
     # ports:
     #   - "162:1162/udp"
     # networks:
