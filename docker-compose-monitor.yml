@@ -62,6 +62,10 @@ services:
     container_name: zabbix-server
     hostname: zabbix-server
     image: zabbix/zabbix-server-mysql:${ZB_TAG_SRV:-latest}
+    # image: zabbix/zabbix-server-mysql:1.0.0
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile.zabbix-server
     restart: unless-stopped
     environment:
       DB_SERVER_HOST: zabbix-mysql
