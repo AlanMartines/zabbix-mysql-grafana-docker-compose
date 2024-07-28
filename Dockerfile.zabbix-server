@@ -8,8 +8,15 @@ LABEL version="1.0.0" description="Zabbix & Grafana Docker Compose" maintainer="
 RUN apt-get update; \
 	apt-get upgrade -y; \
 	apt-get install -y \
-	git \
-	sudo; \
+	sudo \
+	build-essential \
+	zlib1g-dev \
+	libncurses5-dev \
+	libgdbm-dev \
+	libnss3-dev \
+	libssl-dev \
+	libreadline-dev \
+	libffi-dev wget && \
 	apt-get autoremove -y;
 
 EXPOSE 10051/TCP
