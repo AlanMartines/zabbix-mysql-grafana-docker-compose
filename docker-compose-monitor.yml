@@ -1,7 +1,7 @@
 # Criar um contêiner
 # https://medium.com/zabbix-brasil/monitorando-docker-com-zabbix-5-e-zabbix-agent2-1a9a8d53fbd3
 # docker compose -f docker-compose-monitor.yml up --build -d --no-recreate
-
+#
 services:
   #---------------------------------------------------#
   #  ZABBIX-MYSQL - BANCO DE DADOS MYSQL PARA ZABBIX  #
