@@ -125,6 +125,7 @@ services:
     #   - "10051:10051"
     # networks:
     #   - network-monitor
+    dns_search: internal.namespace
     dns:
       - 208.67.222.222
       - 208.67.220.220
@@ -243,6 +244,7 @@ services:
     #   - network-monitor
     # ports:
     #   - 10050:10050
+    dns_search: internal.namespace
     dns:
       - 208.67.222.222
       - 208.67.220.220
