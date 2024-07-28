@@ -69,7 +69,7 @@ services:
     # restart: unless-stopped
     environment:
       DB_SERVER_HOST: zabbix-mysql
-      DB_SERVER_PORT: "3306"
+      DB_SERVER_PORT: 3306
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-secret}
       MYSQL_DATABASE: ${MYSQL_DATABASE:-zabbix}
       MYSQL_USER: ${MYSQL_USER:-zabbix}
@@ -162,7 +162,7 @@ services:
     environment:
       ZBX_SERVER_HOST: zabbix-server
       DB_SERVER_HOST: zabbix-mysql
-      DB_SERVER_PORT: "3306"
+      DB_SERVER_PORT: 3306
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-secret}
       MYSQL_DATABASE: ${MYSQL_DATABASE:-zabbix}
       MYSQL_USER: ${MYSQL_USER:-zabbix}
@@ -202,7 +202,6 @@ services:
     container_name: zabbix-agent
     hostname: zabbix-agent
     image: zabbix/zabbix-agent2:${ZB_TAG_AGT:-latest}
-    #image: zabbix/zabbix-agent:${ZB_TAG_AGT:-latest}
     restart: unless-stopped
     privileged: true
     environment:
