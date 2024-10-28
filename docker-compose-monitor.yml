@@ -26,16 +26,6 @@ services:
       - "--collation-server=utf8mb4_unicode_ci"
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    # deploy:
-    #   restart_policy:
-    #     condition: unless-stopped
-    #   resources:
-    #     limits:
-    #       cpus: '2'
-    #       memory: 2048M
-    #     reservations:
-    #       cpus: '1'
-    #       memory: 1024M
     # networks:
     #   - network-monitor
     # ports:
@@ -57,16 +47,6 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /usr/local/docker/zabbix-snmptraps/snmptraps:/var/lib/zabbix/snmptraps:rw
       - /usr/local/docker/zabbix-snmptraps/mibs:/usr/share/snmp/mibs:ro
-    # deploy:
-    #   restart_policy:
-    #     condition: unless-stopped
-    #   resources:
-    #     limits:
-    #       cpus: '2'
-    #       memory: 2048M
-    #     reservations:
-    #       cpus: '1'
-    #       memory: 1024M
     # ports:
     #   - "162:1162/udp"
     # networks:
@@ -178,7 +158,7 @@ services:
     container_name: zabbix-frontend
     hostname: zabbix-frontend
     image: zabbix/zabbix-web-nginx-mysql:${ZB_TAG_FRONT:-latest}
-    restart: unless-stopped
+    # restart: unless-stopped
     environment:
       ZBX_SERVER_HOST: zabbix-server
       DB_SERVER_HOST: zabbix-mysql
@@ -222,7 +202,7 @@ services:
     container_name: zabbix-agent
     hostname: zabbix-agent
     image: zabbix/zabbix-agent2:${ZB_TAG_AGT:-latest}
-    restart: unless-stopped
+    # restart: unless-stopped
     privileged: true
     environment:
       ZBX_SERVER_HOST: zabbix-server
