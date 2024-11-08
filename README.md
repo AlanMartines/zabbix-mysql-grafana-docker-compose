@@ -113,6 +113,7 @@ rm /usr/lib/python*/EXTERNALLY-MANAGED
 pip3 install bs4
 pip3 install requests
 pip3 install cloudscraper
+pip3 install cfscrape
 pip3 install requests six
 pip3 install beautifulsoup4==4.9.0
 pip3 install certifi==2020.4.5.1
