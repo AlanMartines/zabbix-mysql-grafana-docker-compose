@@ -219,6 +219,7 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/hostname:/etc/hostname:ro
       - /proc:/host/proc:ro
+      - /proc/mounts:/proc/mounts:ro
       - /sys:/host/sys:ro
       - /dev:/host/dev:ro
       - /etc:/host/etc:ro
