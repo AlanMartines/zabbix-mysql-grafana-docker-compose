@@ -104,6 +104,11 @@ apt update; \
 apt install -y build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev wget; \
 apt install -y python3 python3-pip whois; \
 rm /usr/lib/python*/EXTERNALLY-MANAGED;
+
+cd ~; \
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb; \
+apt-get install -y ./google-chrome-stable_current_amd64.deb; \
+google-chrome --version;
 </code>
 </pre>
 
@@ -123,6 +128,8 @@ pip3 install idna==2.9; \
 pip3 install requests-toolbelt==0.9.1; \
 pip3 install soupsieve==2.0; \
 pip3 install urllib3==1.25.9; \
+pip3 install --upgrade urllib3 chardet requests; \
+pip3 install webdriver-manager; \
 pip3 install --upgrade urllib3 chardet requests;
 </code>
 </pre>
