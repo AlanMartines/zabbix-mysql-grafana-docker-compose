@@ -1,7 +1,7 @@
 # Dockerfile
 ARG BASE_IMAGE
 
-FROM zabbix/zabbix-server-mysql:ubuntu-${BASE_IMAGE}-latest
+FROM zabbix/zabbix-server-mysql:${ZB_TAG_SRV}
 
 LABEL version="1.0.0" description="Zabbix & Grafana Docker Compose" maintainer="Alan Martines<alancpmartines@hotmail.com>"
 
@@ -23,18 +23,29 @@ RUN apt-get update && \
 
 RUN rm /usr/lib/python*/EXTERNALLY-MANAGED
 
+RUN cd ~ && \
+	wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
+	apt-get install -y ./google-chrome-stable_current_amd64.deb && \
+	google-chrome --version && \
+	apt-get autoremove -y
+
 RUN pip3 install bs4 && \
-	pip3 install requests && \
-	pip3 install cloudscraper && \
-	pip3 install requests six && \
-	pip3 install beautifulsoup4==4.9.0 && \
-	pip3 install certifi==2020.4.5.1 && \
-	pip3 install chardet==3.0.4 && \
-	pip3 install cloudscraper==1.2.33 && \
-	pip3 install idna==2.9 && \
-	pip3 install requests-toolbelt==0.9.1 && \
-	pip3 install soupsieve==2.0 && \
-	pip3 install urllib3==1.25.9 && \
+	pip3 install bs4; \
+	pip3 install requests; \
+	pip3 install cloudscraper; \
+	pip3 install cfscrape; \
+	pip3 install requests six; \
+	pip3 install beautifulsoup4==4.9.0; \
+	pip3 install certifi==2020.4.5.1; \
+	pip3 install chardet==3.0.4; \
+	pip3 install cloudscraper==1.2.33; \
+	pip3 install idna==2.9; \
+	pip3 install requests-toolbelt==0.9.1; \
+	pip3 install soupsieve==2.0; \
+	pip3 install urllib3==1.25.9; \
+	pip3 install --upgrade urllib3 chardet requests; \
+	pip3 install selenium; \
+	pip3 install webdriver-manager; \
 	pip3 install --upgrade urllib3 chardet requests
 
 EXPOSE 10051/TCP
