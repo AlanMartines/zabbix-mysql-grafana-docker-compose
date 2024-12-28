@@ -16,7 +16,8 @@ RUN apt-get update && \
 	libnss3-dev \
 	libssl-dev \
 	libreadline-dev \
-	libffi-dev wget \
+	libffi-dev \
+	wget \
 	python3 \
 	python3-pip && \
 	apt-get autoremove -y
