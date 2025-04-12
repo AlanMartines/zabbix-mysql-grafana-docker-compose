@@ -220,18 +220,12 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/hostname:/etc/hostname:ro
       - /proc:/host/proc:ro
-      - /proc/mounts:/proc/mounts:ro
       - /sys:/host/sys:ro
       - /dev:/host/dev:ro
       - /etc:/host/etc:ro
       - /var/log:/host/var/log:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/ssl/certs:/etc/ssl/certs:ro
-      - /usr/local/docker/zabbix-agent/scripts:/etc/zabbix/scripts:ro
-      - /usr/local/docker/zabbix-agent/modules:/var/lib/zabbix/modules:ro
-      - /usr/local/docker/zabbix-agent/enc:/var/lib/zabbix/enc:ro
-      - /usr/local/docker/zabbix-agent/ssh_keys:/var/lib/zabbix/ssh_keys:ro
-      - /usr/local/docker/zabbix-agent/zabbix_agentd.d:/etc/zabbix/zabbix_agentd.d:ro
     deploy:
       restart_policy:
         condition: unless-stopped
