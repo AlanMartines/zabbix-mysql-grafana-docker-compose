@@ -56,7 +56,6 @@ cd zabbix-docker-compose</code></pre>
     <li><strong>zabbix-frontend</strong>: Frontend do Zabbix usando Nginx.</li>
     <li><strong>zabbix-agent</strong>: Agente Zabbix.</li>
     <li><strong>zabbix-grafana</strong>: Grafana com o plugin Zabbix.</li>
-    <!--- <li><strong>rocketchat</strong>: Rocket.Chat.</li> --->
 </ul>
 
 <h2>Links para as Imagens Oficiais</h2>
@@ -65,7 +64,6 @@ cd zabbix-docker-compose</code></pre>
     <li><strong>Mysql:</strong> <a href="https://hub.docker.com/_/mysql" target="_blank">https://hub.docker.com/_/mysql</a></li>
     <li><strong>Zabbix:</strong> <a href="https://hub.docker.com/u/zabbix" target="_blank">https://hub.docker.com/u/zabbix</a></li>
     <li><strong>Grafana:</strong> <a href="https://hub.docker.com/u/grafana" target="_blank">https://hub.docker.com/u/grafana</a></li>
-    <! --- <li><strong>Rocket.Chat:</strong> <a href="https://hub.docker.com/r/rocketchat/rocket.chat" target="_blank">https://hub.docker.com/r/rocketchat/rocket.chat</a></li> --->
 </ul>
 
 <h2>Implantação Backend</h2>
